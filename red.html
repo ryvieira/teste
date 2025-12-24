@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ryan Vieira — Red (TV)</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* RESET & BASE */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { 
+            background-color: #000; 
+            color: #fff; 
+            font-family: 'Inter', sans-serif; 
+            line-height: 1.6; 
+            -webkit-font-smoothing: antialiased; 
+            overflow-x: hidden; 
+        }
+
+        /* --- LÓGICA MULTILINGUE --- */
+        .lang-en { display: none; }
+        body.en-active .lang-pt { display: none; }
+        body.en-active .lang-en { display: inline; }
+        body.en-active div.lang-en { display: block; }
+
+        /* ANIMAÇÃO DE ENTRADA */
+        .fade-in { 
+            opacity: 0; 
+            transform: translateY(30px); 
+            transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+        .fade-in.is-visible { opacity: 1; transform: translateY(0); }
+
+        /* --- NAVEGAÇÃO SUPERIOR (3 COLUNAS) --- */
+        .top-nav { 
+            position: fixed; 
+            top: 50px; 
+            left: 0; 
+            width: 100%; 
+            padding: 0 50px; 
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center; 
+            z-index: 1000; 
+            pointer-events: none; 
+        }
+
+        .nav-link { 
+            pointer-events: auto; 
+            text-decoration: none; 
+            color: #fff; 
+            font-size: 13px; 
+            text-transform: lowercase; 
+            letter-spacing: 0.2em; 
+            font-weight: 300; 
+            transition: opacity 0.3s;
+            justify-self: start;
+        }
+        .nav-link:hover { opacity: 0.5; }
+
+        .lang-switcher {
+            pointer-events: auto;
+            display: flex;
+            gap: 10px;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            user-select: none;
+            justify-self: center;
+        }
+        .lang-btn { cursor: pointer; color: #333; transition: 0.3s; }
+        .lang-btn.active { color: #fff; font-weight: 600; }
+        .lang-btn:hover { color: #888; }
+
+        .project-id { 
+            color: rgba(255, 255, 255, 0.4); 
+            font-size: 13px; 
+            text-transform: lowercase; 
+            letter-spacing: 0.2em; 
+            font-weight: 300; 
+            justify-self: end;
+        }
+
+        /* HERO VISUAL COM TRATAMENTO */
+        .hero-visual {
+            width: 100%;
+            height: 85vh; 
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+            background: #000;
+        }
+        .hero-visual::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.2); 
+            z-index: 2;
+            pointer-events: none;
+        }
+        .hero-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transform: scale(1);
+            transition: transform 0.1s linear;
+            filter: brightness(0.6) contrast(1.1); 
+        }
+
+        /* CONTAINER */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+
+        /* SEÇÃO EDITORIAL */
+        .editorial-block {
+            display: flex;
+            justify-content: space-between;
+            gap: 80px;
+            padding: 100px 0 120px 0;
+        }
+        .editorial-left { flex: 0 0 350px; display: flex; flex-direction: column; }
+        .project-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; color: #444; margin-bottom: 20px; display: block; }
+        .editorial-title { font-size: 48px; font-weight: 600; line-height: 1; letter-spacing: -0.04em; margin-bottom: 30px; }
+        
+        .category-tag {
+            display: inline-block;
+            border: 1px solid #333;
+            padding: 8px 16px;
+            font-weight: 300;
+            font-size: 13px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            width: fit-content;
+        }
+
+        .editorial-right { flex: 1; max-width: 700px; }
+        .text-main { font-size: 21px; font-weight: 300; color: #ccc; line-height: 1.6; }
+
+        /* ESTUDO DE CASO */
+        .case-study { padding: 100px 0; border-top: 1px solid #111; margin-top: 100px; }
+        .case-study h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.3em; color: #444; margin-bottom: 60px; text-align: center; }
+        .case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px 100px; }
+        .case-item h3 { font-size: 13px; text-transform: uppercase; color: #fff; margin-bottom: 20px; letter-spacing: 0.1em; font-weight: 600; }
+        .case-item p { font-size: 17px; font-weight: 300; color: #888; }
+
+        /* FLOW DE IMAGENS */
+        .project-flow { margin-top: 60px; }
+        .grid-layout { display: grid; gap: 40px; margin-bottom: 40px; }
+        .two-columns { grid-template-columns: 1fr 1fr; }
+        .project-flow img { width: 100%; height: auto; display: block; background-color: #050505; }
+        .full-width { width: 100%; margin-bottom: 40px; }
+
+        /* CONCEITO */
+        .concept-section { max-width: 800px; margin: 120px auto; text-align: center; }
+        .concept-section h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.2em; color: #444; margin-bottom: 30px; }
+        .concept-section p { font-size: 20px; font-weight: 300; color: #ccc; }
+
+        /* CRÉDITOS */
+        .credits { border-top: 1px solid #222; padding-top: 80px; margin-top: 120px; }
+        .credits h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.2em; color: #444; margin-bottom: 50px; }
+        .credits-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 50px 40px; margin-bottom: 80px; }
+        .credits-list dt { font-size: 12px; text-transform: uppercase; color: #444; margin-bottom: 12px; }
+        .credits-list dd { font-size: 18px; font-weight: 300; color: #fff; }
+
+        /* NAVEGAÇÃO LOOP */
+        .next-project-section { padding: 120px 0; border-top: 1px solid #222; margin-top: 80px; }
+        .next-project-link { font-size: clamp(32px, 8vw, 80px); font-weight: 600; color: #fff; text-decoration: none; letter-spacing: -0.04em; transition: all 0.5s ease; }
+        .next-project-link:hover { color: #666; transform: translateX(15px); }
+
+        .back-to-top-fixed { position: fixed; bottom: 50px; left: 50px; text-decoration: none; color: #fff; font-size: 24px; font-weight: 300; z-index: 1000; opacity: 0; pointer-events: none; transition: all 0.4s ease; }
+        .back-to-top-fixed.visible { opacity: 1; pointer-events: auto; }
+
+        footer { padding: 60px 0; text-align: center; font-size: 11px; color: #222; border-top: 1px solid #111; }
+
+        @media (max-width: 900px) {
+            .top-nav { grid-template-columns: 1fr 1fr; padding: 20px 30px; top: 20px; gap: 10px; }
+            .lang-switcher { grid-row: 2; grid-column: 1 / span 2; margin-top: 15px; }
+            .editorial-block { flex-direction: column; gap: 40px; }
+            .case-grid { grid-template-columns: 1fr; gap: 50px; }
+            .two-columns { grid-template-columns: 1fr; }
+            .container { padding: 0 25px; }
+        }
+    </style>
+</head>
+<body id="top">
+
+    <nav class="top-nav">
+        <a href="projetos.html" class="nav-link">
+            <span class="lang-pt">← voltar</span>
+            <span class="lang-en">← back</span>
+        </a>
+
+        <div class="lang-switcher">
+            <span id="btn-pt" class="lang-btn active" onclick="switchLang('pt')">PT</span>
+            <span style="color: #111;">|</span>
+            <span id="btn-en" class="lang-btn" onclick="switchLang('en')">EN</span>
+        </div>
+
+        <span class="project-id">ryan vieira — red (tv)</span>
+    </nav>
+
+    <a href="#top" class="back-to-top-fixed" id="btnBackToTop">↑</a>
+
+    <header class="hero-visual fade-in">
+        <img src="img/redgif.gif" alt="Red Taylor's Version Hero" id="heroImage">
+    </header>
+
+    <main class="container">
+        
+        <section class="editorial-block fade-in">
+            <div class="editorial-left">
+                <span class="project-label">PROJECT</span>
+                <h1 class="editorial-title">Red Taylor’s Version</h1>
+                <div class="category-tag">
+                    <span class="lang-pt">Identidade Visual, Música</span>
+                    <span class="lang-en">Visual Identity, Music</span>
+                </div>
+            </div>
+            <div class="editorial-right">
+                <p class="text-main">
+                    <span class="lang-pt">Este projeto é uma releitura gráfica do álbum Red (Taylor’s Version), no qual explorei a essência emocional do disco. A proposta não foi simplesmente reinterpretar a capa, mas sim criar uma identidade visual expandida, incluindo contracapa e cartazes de divulgação.</span>
+                    <span class="lang-en">This project is a graphic reinterpretation of the Red (Taylor’s Version) album, in which I explored the record's emotional essence. The proposal was to create an expanded visual identity, including back cover and promotional posters.</span>
+                </p>
+            </div>
+        </section>
+
+        <div class="project-flow">
+            <section class="grid-layout two-columns fade-in">
+                <img src="img/albumfrente.png" alt="Capa">
+                <img src="img/albumatras.png" alt="Contracapa">
+            </section>
+        </div>
+
+        <section class="concept-section fade-in">
+            <h2><span class="lang-pt">Conceito</span><span class="lang-en">Concept</span></h2>
+            <p>
+                <span class="lang-pt">O ponto de partida foi a própria cor vermelha, símbolo central do álbum, que aqui ganha o protagonismo absoluto através de um tratamento gráfico monocromático intenso.</span>
+                <span class="lang-en">The starting point was the color red itself, the central symbol of the album, which here gains absolute prominence through an intense monochromatic treatment.</span>
+            </p>
+        </section>
+
+        <div class="project-flow">
+            <img src="img/spotify-mockup.png" alt="Spotify Mockup" class="full-width fade-in">
+        </div>
+
+        <section class="case-study fade-in">
+            <h2><span class="lang-pt">Estudo de Caso</span><span class="lang-en">Case Study</span></h2>
+            <div class="case-grid">
+                <div class="case-item">
+                    <h3><span class="lang-pt">Problema</span><span class="lang-en">Problem</span></h3>
+                    <p><span class="lang-pt">Álbuns consagrados já possuem uma identidade consolidada. O desafio estava em respeitar a carga original da obra e criar algo inédito.</span><span class="lang-en">Established albums already have a consolidated identity. The challenge was to respect the original work while creating something new.</span></p>
+                </div>
+                <div class="case-item">
+                    <h3><span class="lang-pt">Processo</span><span class="lang-en">Process</span></h3>
+                    <p><span class="lang-pt">Texturas granuladas e contraste cromático refletindo os altos e baixos emocionais das faixas.</span><span class="lang-en">Grainy textures and chromatic contrast reflecting the emotional ups and downs of the tracks.</span></p>
+                </div>
+            </div>
+        </section>
+
+        <div class="project-flow">
+            <section class="grid-layout two-columns fade-in">
+                <img src="img/mockupposter1.png" alt="Posters">
+                <img src="img/mockupposter2.png" alt="Detail 1">
+            </section>
+            
+            <img src="img/redtaylorposter.jpg" alt="Detail Full" class="full-width fade-in">
+        </div>
+
+        <section class="credits fade-in">
+            <h2><span class="lang-pt">Créditos</span><span class="lang-en">Credits</span></h2>
+            <dl class="credits-list">
+                <div><dt><span class="lang-pt">Direção de Arte</span><span class="lang-en">Art Direction</span></dt><dd>Ryan Vieira</dd></div>
+                <div><dt><span class="lang-pt">Execução</span><span class="lang-en">Execution</span></dt><dd>Ryan Vieira</dd></div>
+                <div><dt><span class="lang-pt">Ano</span><span class="lang-en">Year</span></dt><dd>2022</dd></div>
+            </dl>
+        </section>
+
+        <section class="next-project-section fade-in">
+            <span class="next-label"><span class="lang-pt">Próximo Projeto</span><span class="lang-en">Next Project</span></span><br>
+            <a href="capas-de-albuns.html" class="next-project-link">Capas de Álbuns Vol.1 →</a>
+        </section>
+    </main>
+
+    <footer><p>© 2025 RYAN VIEIRA. ALL RIGHTS RESERVED.</p></footer>
+
+    <script>
+        const bodyEl = document.body;
+        const btnPt = document.getElementById('btn-pt');
+        const btnEn = document.getElementById('btn-en');
+
+        function switchLang(lang) {
+            if (lang === 'en') {
+                bodyEl.classList.add('en-active');
+                btnEn.classList.add('active');
+                btnPt.classList.remove('active');
+            } else {
+                bodyEl.classList.remove('en-active');
+                btnPt.classList.add('active');
+                btnEn.classList.remove('active');
+            }
+            localStorage.setItem('ryanLang', lang);
+        }
+
+        async function initLanguage() {
+            const savedLang = localStorage.getItem('ryanLang');
+            if (savedLang) switchLang(savedLang);
+            else {
+                try {
+                    const res = await fetch('https://ipapi.co/json/');
+                    const data = await res.json();
+                    if (data.country_code !== 'BR') switchLang('en');
+                } catch (e) { if (!navigator.language.includes('pt')) switchLang('en'); }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initLanguage();
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+            const btnBackToTop = document.getElementById('btnBackToTop');
+            const heroImage = document.getElementById('heroImage');
+            const headerHeight = document.querySelector('.hero-visual').offsetHeight;
+
+            window.addEventListener('scroll', () => {
+                const scroll = window.scrollY;
+                if (scroll > 400) btnBackToTop.classList.add('visible');
+                else btnBackToTop.classList.remove('visible');
+                if (scroll <= headerHeight) {
+                    const scaleFactor = 1 + (scroll / 2500);
+                    heroImage.style.transform = `scale(${Math.min(scaleFactor, 1.2)})`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

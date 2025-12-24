@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre — Ryan Vieira</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* BASE & RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* --- LÓGICA MULTILINGUE --- */
+        .lang-en { display: none; }
+        body.en-active .lang-pt { display: none; }
+        body.en-active .lang-en { display: inline; }
+        body.en-active div.lang-en { display: block; }
+
+        /* ANIMAÇÃO DE ENTRADA */
+        @keyframes reveal {
+            from { opacity: 0; transform: translateY(20px); filter: blur(5px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+        .fade-in { animation: reveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        /* --- NAVEGAÇÃO SUPERIOR --- */
+        .top-nav {
+            position: fixed; 
+            top: 50px; 
+            left: 0; 
+            width: 100%; 
+            padding: 0 50px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr; 
+            align-items: center;
+            z-index: 2000;
+            pointer-events: none;
+        }
+
+        .nav-link {
+            pointer-events: auto;
+            text-decoration: none;
+            color: #444;
+            font-size: 14px;
+            text-transform: lowercase;
+            letter-spacing: 0.2em;
+            transition: color 0.3s;
+            font-weight: 300;
+            justify-self: start;
+        }
+        .nav-link:hover { color: #fff; }
+
+        .lang-switcher {
+            pointer-events: auto;
+            display: flex;
+            gap: 10px;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            user-select: none;
+            justify-self: center;
+        }
+        .lang-btn { cursor: pointer; color: #333; transition: 0.3s; }
+        .lang-btn.active { color: #fff; font-weight: 600; }
+        .lang-btn:hover { color: #888; }
+
+        .page-id {
+            color: #444;
+            font-size: 14px;
+            text-transform: lowercase;
+            letter-spacing: 0.2em;
+            font-weight: 300;
+            justify-self: end;
+        }
+
+        /* LAYOUT CONTAINER */
+        .container {
+            max-width: 1200px; margin: 0 auto;
+            padding: 160px 40px 100px 40px;
+        }
+
+        header { margin-bottom: 120px; }
+        h1 { font-size: 52px; font-weight: 600; letter-spacing: -0.03em; margin-bottom: 60px; }
+        .header-wrapper { display: flex; gap: 80px; align-items: flex-start; }
+
+        /* FOTO COM MOVIMENTO */
+        .photo-frame {
+            flex: 0 0 350px; background-color: #111; overflow: hidden; align-self: flex-start;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .profile-img {
+            width: 100%; height: auto; display: block;
+            filter: grayscale(100%) contrast(1.1); transform: scale(1.05);
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+        }
+        .photo-frame:hover { transform: translateY(-12px) rotate(-1.5deg); }
+        .photo-frame:hover .profile-img { filter: grayscale(0%) contrast(1); transform: scale(1.2) translateX(10px); }
+
+        .bio-container { flex: 1; padding-top: 10px; }
+        .bio-text { font-size: 21px; font-weight: 300; color: #ccc; margin-bottom: 30px; }
+        .bio-text strong { color: #fff; font-weight: 500; }
+
+        /* GRID DE INFORMAÇÕES */
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; border-top: 1px solid #1a1a1a; padding-top: 80px; }
+        section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.25em; color: #333; margin-bottom: 40px; font-weight: 600; }
+        .item { margin-bottom: 40px; }
+        .item h3 { font-size: 19px; font-weight: 500; margin-bottom: 5px; color: #fff; }
+        .item p { font-size: 17px; color: #888; font-weight: 300; }
+        .item .date { display: block; font-size: 13px; color: #444; margin-top: 8px; letter-spacing: 0.05em; }
+
+        /* CLIENT TAGS */
+        .clients-wrapper { display: flex; flex-wrap: wrap; gap: 12px; }
+        .client-tag { display: inline-block; padding: 8px 18px; border: 1px solid #222; color: #eee; font-size: 16px; font-weight: 400; transition: 0.4s ease; cursor: default; }
+        .client-tag:hover { background-color: #fff; color: #000; border-color: #fff; transform: translateY(-3px); }
+
+        /* --- SEÇÃO DE CONTATO (CTA) --- */
+        .cta-section {
+            margin-top: 150px;
+            padding-top: 100px;
+            border-top: 1px solid #1a1a1a;
+            text-align: left;
+        }
+        .cta-title {
+            font-size: 42px;
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 40px;
+        }
+        .cta-link {
+            font-size: 24px;
+            font-weight: 300;
+            color: #888;
+            text-decoration: none;
+            transition: color 0.4s ease;
+            position: relative;
+            display: inline-block;
+        }
+        .cta-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -5px;
+            left: 0;
+            background-color: #fff;
+            transition: width 0.4s ease;
+        }
+        .cta-link:hover { color: #fff; }
+        .cta-link:hover::after { width: 100%; }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 900px) {
+            .top-nav { grid-template-columns: 1fr 1fr; padding: 20px 30px; top: 20px; gap: 10px; }
+            .lang-switcher { grid-row: 2; grid-column: 1 / span 2; margin-top: 15px; }
+            .header-wrapper { flex-direction: column; gap: 40px; }
+            .photo-frame { width: 100%; max-width: 350px; }
+            .info-grid { grid-template-columns: 1fr; gap: 60px; }
+            .container { padding: 40px 30px; padding-top: 100px; }
+            .cta-title { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav fade-in">
+        <a href="index.html" class="nav-link">
+            <span class="lang-pt">← voltar</span>
+            <span class="lang-en">← back</span>
+        </a>
+
+        <div class="lang-switcher">
+            <span id="btn-pt" class="lang-btn active" onclick="switchLang('pt')">PT</span>
+            <span style="color: #222;">|</span>
+            <span id="btn-en" class="lang-btn" onclick="switchLang('en')">EN</span>
+        </div>
+
+        <span class="page-id">ryan vieira — 
+            <span class="lang-pt">sobre</span>
+            <span class="lang-en">about</span>
+        </span>
+    </nav>
+
+    <div class="container fade-in">
+        <header>
+            <h1>
+                <span class="lang-pt">Sobre</span>
+                <span class="lang-en">About</span>
+            </h1>
+            
+            <div class="header-wrapper">
+                <div class="photo-frame">
+                    <img src="img/fotosobre.png" alt="Ryan Vieira" class="profile-img">
+                </div>
+
+                <div class="bio-container">
+                    <p class="bio-text">
+                        <span class="lang-pt">Designer gráfico com <strong>5 anos de experiência</strong>, apaixonado por criar, colocar minha visão nas coisas e transformar ideias em realidade.</span>
+                        <span class="lang-en">Graphic designer with <strong>5 years of experience</strong>, passionate about creating, applying my vision, and turning ideas into reality.</span>
+                    </p>
+                    <p class="bio-text">
+                        <span class="lang-pt">Minha trajetória começou no <strong>NAVE Rio</strong>, onde me formei como Técnico em Multimídia. Lá explorei diversas possibilidades criativas, desde zines até podcasts.</span>
+                        <span class="lang-en">My journey began at <strong>NAVE Rio</strong>, where I graduated as a Multimedia Technician. There I explored various creative paths, from zines to podcasts.</span>
+                    </p>
+                    <p class="bio-text">
+                        <span class="lang-pt">Sou viciado em texturas, torcedor do Vasco e fã do Frank Ocean. Coloco minha marca e um pedaço de mim em cada projeto desenvolvido.</span>
+                        <span class="lang-en">I'm obsessed with textures, a Vasco da Gama supporter, and a Frank Ocean fan. I put my personal mark on every project I develop.</span>
+                    </p>
+                </div>
+            </div>
+        </header>
+
+        <div class="info-grid">
+            <div class="grid-column">
+                <section>
+                    <h2><span class="lang-pt">Experiências</span><span class="lang-en">Experience</span></h2>
+                    <div class="item">
+                        <h3><span class="lang-pt">Estagiário de Design</span><span class="lang-en">Design Intern</span></h3>
+                        <p>ECOA PUC-Rio</p>
+                        <span class="date">2025 — <span class="lang-pt">AGORA</span><span class="lang-en">NOW</span></span>
+                    </div>
+                    <div class="item">
+                        <h3>Designer Gráfico</h3>
+                        <p>Agência AVA</p>
+                        <span class="date">2023 — 2024</span>
+                    </div>
+                    <div class="item">
+                        <h3>Freelancer</h3>
+                        <p><span class="lang-pt">Independente</span><span class="lang-en">Independent</span></p>
+                        <span class="date">2020 — <span class="lang-pt">AGORA</span><span class="lang-en">NOW</span></span>
+                    </div>
+                </section>
+            </div>
+
+            <div class="grid-column">
+                <section>
+                    <h2><span class="lang-pt">Educação</span><span class="lang-en">Education</span></h2>
+                    <div class="item">
+                        <h3><span class="lang-pt">Graduação em Design</span><span class="lang-en">Bachelor of Design</span></h3>
+                        <p>PUC-Rio</p>
+                        <span class="date">2024 — 2027</span>
+                    </div>
+                    <div class="item">
+                        <h3><span class="lang-pt">Técnico em Multimídia</span><span class="lang-en">Multimedia Technician</span></h3>
+                        <p>NAVE Rio</p>
+                        <span class="date">2019 — 2022</span>
+                    </div>
+                </section>
+
+                <section style="margin-top: 80px;">
+                    <h2><span class="lang-pt">Alguns Clientes</span><span class="lang-en">Select Clients</span></h2>
+                    <div class="clients-wrapper">
+                        <span class="client-tag">Any Gabrielly</span>
+                        <span class="client-tag">João Vitor Mello</span>
+                        <span class="client-tag">Agência AVA</span>
+                        <span class="client-tag">Dead Cat</span>
+                        <span class="client-tag">O Estagiário</span>
+                        <span class="client-tag">Kauã Marques</span>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <section class="cta-section fade-in">
+            <h2 class="cta-title">
+                <span class="lang-pt">Trabalhando em algo novo? <br> Vamos conversar.</span>
+                <span class="lang-en">Working on something new? <br> Let's talk.</span>
+            </h2>
+            <a href="mailto:ryvieira65@gmail.com" class="cta-link">
+                <span class="lang-pt">Entre em contato ↗</span>
+                <span class="lang-en">Get in touch ↗</span>
+            </a>
+        </section>
+    </div>
+
+    <script>
+        const bodyEl = document.body;
+        const btnPt = document.getElementById('btn-pt');
+        const btnEn = document.getElementById('btn-en');
+
+        function switchLang(lang) {
+            if (lang === 'en') {
+                bodyEl.classList.add('en-active');
+                btnEn.classList.add('active');
+                btnPt.classList.remove('active');
+            } else {
+                bodyEl.classList.remove('en-active');
+                btnPt.classList.add('active');
+                btnEn.classList.remove('active');
+            }
+            localStorage.setItem('ryanLang', lang);
+        }
+
+        async function initLanguage() {
+            const savedLang = localStorage.getItem('ryanLang');
+            if (savedLang) {
+                switchLang(savedLang);
+            } else {
+                try {
+                    const res = await fetch('https://ipapi.co/json/');
+                    const data = await res.json();
+                    if (data.country_code !== 'BR') switchLang('en');
+                } catch (e) {
+                    if (!navigator.language.includes('pt')) switchLang('en');
+                }
+            }
+        }
+        initLanguage();
+    </script>
+</body>
+</html>

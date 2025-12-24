@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ryan Vieira — Detalhe do Projeto</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background-color: #111111;
+            color: #eee;
+            font-family: "Inter", sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .project-intro-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* Degradê suave no final da introdução */
+        .project-intro-wrapper::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(to bottom, rgba(17, 17, 17, 0), #111111);
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .intro-text {
+            padding: 3rem 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .intro-text nav {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            color: #888;
+        }
+        .intro-text nav a {
+            color: #fff;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        .intro-text nav a:hover {
+            opacity: 0.7;
+        }
+        .intro-text h1 {
+            font-family: "Inter", sans-serif;
+            font-size: 7rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.1;
+            margin: 2rem 0;
+        }
+        .intro-section {
+            margin-bottom: 2rem;
+        }
+        
+        .intro-section h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+            margin-bottom: 0.5rem;
+        }
+        
+        .intro-section p {
+            font-size: 1rem;
+            color: #ccc;
+            margin: 0;
+            max-width: 50ch;
+        }
+        .footer-link a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+        .footer-link a:hover {
+            opacity: 0.7;
+        }
+
+        .intro-image {
+            position: relative;
+            background-color: #333;
+            /* --- ATENÇÃO: TROQUE ESTE LINK PELA SUA IMAGEM LOCAL --- */
+            /* Exemplo local: background-image: url('img/lendas-site-2.png'); */
+            background-image: url('https://images.unsplash.com/photo-1626785774573-4b79931f7a4d?q=80&w=1000&auto=format&fit=crop'); 
+            background-size: cover;
+            background-position: center;
+        }
+
+        #obras {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+            position: relative;
+        }
+        
+        #obras.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 3rem;
+            display: grid;
+            grid-template-columns: 30% 1fr;
+            gap: 4rem;
+        }
+        .project-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .project-info .label {
+            font-size: 0.9rem;
+            color: #888;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+        .project-info .title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-top: 0.5rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+        .project-description p {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin-bottom: 2rem;
+            max-width: 65ch;
+        }
+        
+        .gallery-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 3rem 5rem 3rem;
+        }
+        .gallery-grid-one img {
+            width: 100%;
+            height: auto;
+            display: block;
+            background-color: #333;
+        }
+        .gallery-grid-two {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+        .gallery-grid-two img {
+            width: 100%;
+            height: auto;
+            display: block;
+            background-color: #333;
+        }
+        .gallery-grid-three {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        .gallery-grid-three img {
+            width: 100%;
+            height: auto;
+            display: block;
+            background-color: #333;
+        }
+
+        .credits-list p {
+            margin-bottom: 2rem;
+            padding: 0;
+            line-height: 1.4;
+        }
+        .credits-list .credit-label {
+            font-size: 0.9rem;
+            color: #888;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        .credits-list .credit-name {
+            font-size: 1.5rem;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 3rem;
+            margin-top: 3rem;
+            border-top: 1px solid #333;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        @media (max-width: 900px) {
+            .project-intro-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .intro-text {
+                padding: 2.5rem;
+            }
+            .intro-text h1 {
+                font-size: 5rem;
+            }
+            .intro-image {
+                min-height: 400px; 
+                order: -1;
+            }
+            .content-wrapper {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 3rem 1.5rem;
+            }
+            .project-info .title {
+                font-size: 2.5rem;
+            }
+            .gallery-wrapper {
+                padding: 0 1.5rem 3rem 1.5rem;
+            }
+            .gallery-grid-two, .gallery-grid-three {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 500px) {
+            .intro-text {
+                padding: 2rem 1.5rem;
+            }
+            .intro-text h1 {
+                font-size: 3.5rem;
+            }
+            .intro-text nav {
+                gap: 1rem;
+                font-size: 0.8rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <main>
+        
+        <section class="project-intro-wrapper">
+    
+            <div class="intro-text">
+                <div>
+                    <nav>
+                        <a href="index.html">+ voltar</a>
+                        <span>Direção de arte & Tipografia</span>
+                        <span>2024</span>
+                    </nav>
+        
+                    <section class="intro-main">
+                        <h1>Type Season</h1>
+        
+                        <div class="intro-section">
+                            <h2>sobre</h2>
+                            <p id="sobre-p">
+                                As campanhas de moda, como as de Fall/Winter e Spring/Summer, são um dos principais veículos da construção da identidade das grandes marcas, funcionando como vitrines visuais que unem estética, narrativa e desejo...
+                            </p>
+                        </div>
+        
+                    </section>
+                </div>
+    
+                <div class="footer-link">
+                    <a href="#obras">+ obras</a> 
+                </div>
+            </div>
+    
+            <!-- IMAGEM PRINCIPAL -->
+            <div class="intro-image">
+                <!-- A imagem de fundo é definida no CSS (.intro-image) -->
+            </div>
+    
+        </section>
+
+        <div id="obras">
+
+            <section class="gallery-wrapper" style="padding-top: 5rem;">
+                <div class="gallery-grid-two">
+                    <img src="https://placehold.co/800x600/222/555?text=Obra+1" alt="Detalhe do projeto 1">
+                    <img src="https://placehold.co/800x600/222/555?text=Obra+2" alt="Detalhe do projeto 2">
+                </div>
+            </section>
+    
+            <section class="gallery-wrapper">
+                <div class="gallery-grid-one">
+                    <img src="https://placehold.co/1200x800/444/777?text=Obra+3" alt="Detalhe do projeto 3">
+                </div>
+            </section>
+            
+            <section class="content-wrapper">
+                <div class="project-info">
+                    <h2 class="title">
+                        Conceito
+                    </h2>
+                </div>
+                <div class="project-description">
+                    <p id="conceito-p">
+                        O projeto consiste em transformar campanhas em cartazes, explorando a fusão entre tipografia customizada e fotografia. Em cada peça, a tipografia assume protagonismo como elemento principal...
+                    </p>
+                </div>
+            </section>
+    
+            <section class="gallery-wrapper">
+                <div class="gallery-grid-two">
+                    <img src="https://placehold.co/800x600/222/555?text=Obra+4" alt="Detalhe do projeto 4">
+                    <img src="https://placehold.co/800x600/222/555?text=Obra+5" alt="Detalhe do projeto 5">
+                </div>
+            </section>
+    
+            <section class="gallery-wrapper">
+                <div class="gallery-grid-one">
+                    <img src="https://placehold.co/1200x800/444/777?text=Obra+6" alt="Detalhe do projeto 6">
+                </div>
+            </section>
+    
+            <section class="gallery-wrapper">
+                <div class="gallery-grid-one">
+                    <img src="https://placehold.co/1200x800/444/777?text=Obra+7" alt="Detalhe do projeto 7">
+                </div>
+            </section>
+            
+            <section class="content-wrapper">
+                
+                <div class="project-info">
+                    <h2 class="title">
+                        Créditos
+                    </h2>
+                </div>
+    
+                <div class="project-description credits-list">
+                    
+                    <p>
+                        <span class="credit-label">Client</span>
+                        <span class="credit-name">Banda Oyáladê</span>
+                    </p>
+    
+                    <p>
+                        <span class="credit-label">Design / Art Direction / Ilustration</span>
+                        <span class="credit-name">Danielly Caetano</span>
+                    </p>
+    
+                    <p>
+                        <span class="credit-label">Production</span>
+                        <span class="credit-name">Nathália Leite</span>
+                    </p>
+    
+                    <p>
+                        <span class="credit-label">Art Direction</span>
+                        <span class="credit-name">Simonne Alves</span>
+                    </p>
+    
+                    <p>
+                        <span class="credit-label">Musical Direction</span>
+                        <span class="credit-name">Rebeca Barboza</span>
+                    </p>
+    
+                    <p>
+                        <span class="credit-label">2025</span>
+                    </p>
+    
+                </div>
+    
+            </section>
+            
+        </div>
+
+    </main>
+    
+    <footer>
+        <p>© 2025 Ryan Vieira. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const obrasSection = document.getElementById('obras');
+            if (!obrasSection) return;
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observerCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        obrasSection.classList.add('is-visible');
+                        observer.unobserve(obrasSection); 
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver(observerCallback, observerOptions);
+            observer.observe(obrasSection);
+        });
+    </script>
+</body>
+</html>

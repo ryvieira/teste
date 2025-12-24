@@ -1,0 +1,331 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+body {
+    background: #000;
+    color: #fff;
+    font-family: "Inter", sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden; /* Alterado para permitir scroll vertical se necessário no mobile, mas evitar horizontal na página */
+}
+
+.container {
+    width: 100%;
+    max-width: 1400px; /* Aumentei um pouco para caber as setas */
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    /* Aumentei o padding lateral para dar espaço às setas */
+    padding: 2rem 4rem; 
+    box-sizing: border-box;
+    flex-grow: 1;
+    justify-content: center; /* Centraliza verticalmente */
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 2rem; /* Reduzi um pouco a margem */
+    position: relative;
+    z-index: 10;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: headerEntrance 0.8s ease-out 0.1s forwards; 
+}
+
+.voltar {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 1rem;
+    transition: opacity 0.2s;
+    letter-spacing: 0.5px;
+}
+
+.voltar:hover {
+    opacity: 0.7;
+}
+
+h1 {
+    font-weight: 400;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    text-align: right;
+    margin: 0;
+}
+
+h1 span {
+    color: #999;
+}
+
+/* --- NOVO: Wrapper para posicionar as setas relativas à lista --- */
+.projects-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+/* --- ALTERADO: Contêiner de projetos agora rola horizontalmente --- */
+.projects {
+    display: flex; 
+    /* justify-content: center; REMOVIDO - precisa ser flex-start para rolar */
+    justify-content: flex-start;
+    align-items: center;
+    flex-grow: 1; 
+    gap: 3rem; 
+    flex-wrap: nowrap; 
+    padding: 2rem 0; 
+    position: relative; 
+
+    /* Propriedades de Rolagem */
+    overflow-x: auto; /* Permite rolagem horizontal */
+    scroll-behavior: smooth; /* Garante que a rolagem via JS ou âncora seja suave */
+    -webkit-overflow-scrolling: touch; /* Rolagem suave no iOS */
+    
+    /* Esconde a barra de rolagem (estético) */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+}
+
+/* Esconde a barra de rolagem no Chrome/Safari/Opera */
+.projects::-webkit-scrollbar {
+    display: none;
+}
+
+/* --- NOVO: Estilos das Setas --- */
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    color: #555;
+    border: none;
+    font-size: 3rem;
+    cursor: pointer;
+    z-index: 30; /* Fica acima dos projetos */
+    padding: 10px;
+    transition: all 0.3s ease;
+    line-height: 1;
+}
+
+.arrow:hover {
+    color: #fff;
+    transform: translateY(-50%) scale(1.2); /* Efeito de pulso no hover */
+}
+
+.arrow-left {
+    left: -60px; /* Posiciona à esquerda fora da lista */
+}
+
+.arrow-right {
+    right: -60px; /* Posiciona à direita fora da lista */
+}
+
+
+/* --- Estilos dos Projetos (Mantidos na maioria) --- */
+.project {
+    width: 100%;
+    max-width: 210px; 
+    text-align: left;
+    flex-shrink: 0; 
+    position: relative; 
+    z-index: 1; 
+    
+    opacity: 0;
+    animation-duration: 1.2s;
+    animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+    animation-fill-mode: forwards; 
+    
+    animation-name: slideFromRight; /* Mudei para vir da direita, faz mais sentido com scroll */
+    animation-delay: calc(0.15s * var(--order, 1)); 
+    
+    transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1), 
+                box-shadow 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+                filter 0.4s ease,
+                opacity 0.4s ease;
+}
+
+/* Ordem para a animação de entrada */
+.project:nth-child(1) { --order: 1; }
+.project:nth-child(2) { --order: 2; }
+.project:nth-child(3) { --order: 3; }
+.project:nth-child(4) { --order: 4; }
+.project:nth-child(5) { --order: 5; }
+.project:nth-child(6) { --order: 6; }
+.project:nth-child(7) { --order: 7; }
+.project:nth-child(8) { --order: 8; }
+
+
+.project img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+    margin-bottom: 0.6rem;
+    transition: filter 0.35s ease; 
+    filter: brightness(0.9);
+}
+
+.project:hover {
+    transform: translateY(-10px) scale(1.1); 
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8); 
+    z-index: 20; 
+    opacity: 1; 
+    filter: none; 
+}
+
+/* O efeito de foco (blur nos outros) só funciona bem nos itens visíveis */
+.projects:has(.project:hover) .project:not(:hover) {
+    opacity: 0.2; 
+    filter: blur(3px) grayscale(100%); 
+    transform: scale(0.95); 
+}
+
+.project:hover img {
+    filter: brightness(1.1);
+}
+
+.project p {
+    font-size: 0.8rem;
+    line-height: 1.2rem;
+    color: #ccc;
+    margin: 0;
+    transition: color 0.35s ease;
+}
+
+.project strong {
+    color: #fff;
+    font-weight: 600;
+    display: block;
+    transition: color 0.35s ease;
+}
+
+.project:hover p {
+    color: #fff;
+}
+.project:hover strong {
+    color: #00AFFF; 
+}
+
+
+/* Mudei a animação para slideFromRight para parecer que estão entrando na fila */
+@keyframes slideFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(50%) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1); 
+    }
+}
+
+@keyframes headerEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Responsividade --- */
+
+@media (max-width: 1400px) {
+    .container {
+        padding: 2rem 3rem; /* Reduz padding em telas menores */
+    }
+    .arrow-left { left: -40px; }
+    .arrow-right { right: -40px; }
+    
+    .projects {
+        gap: 1.5rem; 
+    }
+    .project {
+        max-width: 180px;
+    }
+    .project img {
+        height: 250px;
+    }
+}
+
+/* No tablet/mobile, as setas geralmente atrapalham, melhor deixar o scroll nativo */
+@media (max-width: 900px) {
+    .arrow {
+        display: none; /* Esconde as setas em telas menores */
+    }
+    .projects-wrapper {
+        width: 100vw; /* Ocupa a largura total */
+        margin-left: -3rem; /* Compensa o padding do container */
+    }
+    .projects {
+        padding-left: 3rem; /* Adiciona padding interno para alinhar o primeiro item */
+        padding-right: 3rem;
+        scroll-padding-left: 3rem;
+    }
+    
+    /* Mantém o layout horizontal, mas permite quebra se necessário (embora nowrap seja o padrão) */
+    /* Se quiser manter horizontal forçado no mobile, mantenha nowrap */
+    /* .projects { flex-wrap: wrap; }  <- REMOVIDO para manter carrossel */
+    
+    .project {
+        /* max-width: calc(50% - 0.75rem); REMOVIDO */
+        margin-bottom: 0; /* REMOVIDO margin bottom */
+    }
+    
+    .projects:has(.project:hover) .project:not(:hover) {
+        opacity: 0.5;
+        filter: blur(1px) grayscale(100%);
+        transform: scale(1); 
+    }
+}
+
+@media (max-width: 500px) {
+    /* No celular, podemos decidir se mantemos o carrossel horizontal ou empilhamos */
+    /* Se quiser empilhar (lista vertical): */
+    /*
+    .projects {
+        flex-direction: column; 
+        gap: 1rem;
+        overflow-x: hidden;
+        padding: 0;
+    }
+    .projects-wrapper { margin-left: 0; width: 100%; }
+    .project {
+        max-width: 100%;
+        margin-bottom: 1rem;
+        animation-name: slideFromBottom; 
+    }
+    */
+
+    /* Se quiser manter o carrossel horizontal no celular (estilo Netflix): */
+    .container {
+        padding: 2rem 1.5rem;
+    }
+    .projects-wrapper {
+         margin-left: -1.5rem;
+    }
+    .projects {
+        padding-left: 1.5rem;
+        gap: 1rem;
+    }
+     .project {
+        max-width: 160px; /* Itens menores no celular */
+    }
+    .project img {
+        height: 220px;
+    }
+
+    .projects:has(.project:hover) .project:not(:hover) {
+        opacity: 1;
+        filter: none;
+        transform: none;
+    }
+}

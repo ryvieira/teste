@@ -1,0 +1,264 @@
+/* =========================================
+   1. Reset e Base (Dark Mode)
+   ========================================= */
+html {
+    scroll-behavior: smooth;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #111111; /* Fundo Preto */
+    color: #eeeeee;            /* Texto Claro */
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    background-color: #222; /* Placeholder enquanto carrega */
+    
+    /* --- NOVO: MÁSCARA DE DEGRADÊ EM TODAS AS IMAGENS --- */
+    /* A imagem é visível (black) até 70% e fica transparente no final */
+    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+}
+
+/* =========================================
+   2. Tipografia
+   ========================================= */
+h1 {
+    font-size: clamp(4rem, 12vw, 7rem); /* Gigante e responsivo */
+    font-weight: 700;
+    line-height: 1.1;
+    color: #ffffff;
+    margin: 60px 0;
+    padding-left: 20px; /* Alinhamento visual */
+}
+
+h2 {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 1rem;
+}
+
+p {
+    font-size: 1.1rem;
+    color: #cccccc; /* Cinza claro para leitura */
+    max-width: 55ch;
+}
+
+/* =========================================
+   3. Navegação (Centralizada e Minimalista)
+   ========================================= */
+nav {
+    display: flex;
+    justify-content: center; /* Centraliza os itens no meio da tela */
+    align-items: center;
+    gap: 4rem; /* Espaço generoso entre as palavras */
+    
+    width: 100%;
+    padding-top: 3rem; /* Distância do topo */
+    
+    font-size: 0.9rem;
+    color: #888;
+    text-transform: lowercase; /* Deixa tudo minúsculo */
+    letter-spacing: 0.5px;
+}
+
+nav a {
+    color: #888;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    cursor: pointer;
+}
+
+nav a:hover {
+    color: #fff;
+}
+
+nav span {
+    color: #888;
+    cursor: default; /* Não clicável */
+}
+
+/* =========================================
+   4. Layout e Grids
+   ========================================= */
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 100px 20px;
+}
+
+/* Grid Padrão (2 Colunas) */
+.grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 8rem;
+    align-items: start;
+}
+
+/* Intro específica (Texto esquerda, Imagem direita) */
+.intro .text-block {
+    padding-right: 2rem;
+}
+
+.intro p {
+    font-size: 1.25rem; /* Texto de introdução levemente maior */
+    color: #ddd;
+}
+
+/* Elementos Centralizados (Conceito) */
+.text-center {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    margin: 10rem 0;
+}
+
+.text-center .title {
+    font-size: 2.5rem; /* Título de seção grande */
+    margin-bottom: 1.5rem;
+}
+
+/* Imagens Full Width */
+.full-width {
+    width: 100%;
+    margin-bottom: 8rem;
+}
+
+/* =========================================
+   5. Créditos (Estilo Lista Limpa)
+   ========================================= */
+.credits {
+    margin-top: 10rem;
+    padding-top: 4rem;
+    border-top: 1px solid #333; /* Linha divisória sutil */
+}
+
+.credits .title {
+    font-size: 2rem;
+    margin-bottom: 3rem;
+}
+
+.credits-list {
+    display: grid;
+    gap: 3rem;
+}
+
+.credits-list div {
+    display: flex;
+    flex-direction: column;
+}
+
+.credits-list dt {
+    font-size: 0.9rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.credits-list dd {
+    font-size: 1.5rem; /* Nome grande como no original */
+    color: #ffffff;
+    font-weight: 500;
+}
+
+/* =========================================
+   6. Footer
+   ========================================= */
+footer {
+    text-align: center;
+    padding: 4rem 2rem;
+    border-top: 1px solid #222;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* =========================================
+   7. Animação (Scroll Fade-in)
+   ========================================= */
+.fade-in {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform;
+}
+
+.fade-in.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* =========================================
+   8. Seta Voltar ao Topo
+   ========================================= */
+.back-to-top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 4rem auto 0 auto;
+    width: 50px;
+    height: 50px;
+    
+    color: #888;
+    border: 1px solid #333;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.back-to-top:hover {
+    color: #fff;
+    border-color: #fff;
+    transform: translateY(-5px);
+    background-color: rgba(255,255,255,0.05);
+}
+
+/* =========================================
+   9. Responsividade (Mobile)
+   ========================================= */
+@media (max-width: 900px) {
+    h1 {
+        margin: 40px 0;
+        padding-left: 0;
+    }
+
+    .grid-layout {
+        grid-template-columns: 1fr; /* Coluna única */
+        gap: 3rem;
+        margin-bottom: 5rem;
+    }
+
+    .intro {
+        display: flex;
+        flex-direction: column-reverse; /* Imagem topo, texto embaixo */
+    }
+
+    .intro .text-block {
+        padding-right: 0;
+    }
+
+    .text-center {
+        margin: 5rem 0;
+    }
+    
+    .full-width {
+        margin-bottom: 5rem;
+    }
+}
