@@ -12,25 +12,13 @@
 
     <style>
        /* Cor da seleção de texto */
-::selection {
-    background-color: #fff;
-    color: #000;
-}
+        ::selection { background-color: #fff; color: #000; }
 
-/* Barra de rolagem customizada (Webkit - Chrome/Safari) */
-::-webkit-scrollbar {
-    width: 8px;
-}
-::-webkit-scrollbar-track {
-    background: #050505;
-}
-::-webkit-scrollbar-thumb {
-    background: #333;
-    border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
+        /* Barra de rolagem */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
 
         /* BASE & RESET */
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -50,129 +38,96 @@
         body.en-active .lang-en { display: inline; }
         body.en-active div.lang-en { display: block; }
 
-        /* --- ANIMAÇÃO LINHA POR LINHA --- */
-        .reveal-element {
+        /* --- SISTEMA DE ANIMAÇÃO HÍBRIDO --- */
+        
+        /* Estado Base (Invisível) */
+        .reveal-base {
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
 
-        .reveal-element.active {
+        /* Estado Ativo (Visível) */
+        .reveal-base.active {
             opacity: 1;
             transform: translateY(0);
         }
 
+        /* Velocidade Rápida (Resto do site) */
+        .reveal-fast {
+            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Velocidade Lenta (Texto da Bio) */
+        .reveal-slow {
+            transform: translateY(40px); /* Distância um pouco maior para o texto */
+            transition: opacity 2.0s ease, transform 2.0s ease-out; /* Bem suave */
+        }
+
         /* --- NAVEGAÇÃO SUPERIOR --- */
         .top-nav {
-            position: fixed; 
-            top: 50px; 
-            left: 0; 
-            width: 100%; 
-            padding: 0 50px;
-            display: grid;
-            grid-template-columns: 1fr auto 1fr; 
-            align-items: center;
-            z-index: 2000;
-            pointer-events: none;
+            position: fixed; top: 50px; left: 0; width: 100%; padding: 0 50px;
+            display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+            z-index: 2000; pointer-events: none;
         }
 
         .nav-link {
-            pointer-events: auto;
-            text-decoration: none;
-            color: #444;
-            font-size: 14px;
-            text-transform: lowercase;
-            letter-spacing: 0.2em;
-            transition: color 0.3s;
-            font-weight: 300;
-            justify-self: start;
+            pointer-events: auto; text-decoration: none; color: #444; font-size: 14px;
+            text-transform: lowercase; letter-spacing: 0.2em;
+            transition: color 0.3s; font-weight: 300; justify-self: start;
         }
         .nav-link:hover { color: #fff; }
 
         .lang-switcher {
-            pointer-events: auto;
-            display: flex;
-            gap: 10px;
-            font-size: 11px;
-            letter-spacing: 0.1em;
-            user-select: none;
-            justify-self: center;
+            pointer-events: auto; display: flex; gap: 10px; font-size: 11px;
+            letter-spacing: 0.1em; user-select: none; justify-self: center;
         }
         .lang-btn { cursor: pointer; color: #333; transition: 0.3s; }
         .lang-btn.active { color: #fff; font-weight: 600; }
         .lang-btn:hover { color: #888; }
 
         .page-id {
-            color: #444;
-            font-size: 14px;
-            text-transform: lowercase;
-            letter-spacing: 0.2em;
-            font-weight: 300;
-            justify-self: end;
+            color: #444; font-size: 14px; text-transform: lowercase;
+            letter-spacing: 0.2em; font-weight: 300; justify-self: end;
         }
 
         /* LAYOUT CONTAINER */
-        .container {
-            max-width: 1200px; margin: 0 auto;
-            padding: 160px 40px 0 40px; 
-        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 160px 40px 0 40px; }
 
         header { margin-bottom: 120px; }
         h1 { font-size: 52px; font-weight: 600; letter-spacing: -0.03em; margin-bottom: 60px; }
         .header-wrapper { display: flex; gap: 80px; align-items: flex-start; perspective: 1000px; }
 
-        /* --- FOTO COM MOVIMENTO INTERATIVO --- */
+        /* FOTO */
         .photo-frame {
-            flex: 0 0 350px; 
-            background-color: #111; 
-            overflow: hidden; 
-            align-self: flex-start;
-            transform-style: preserve-3d;
+            flex: 0 0 350px; background-color: #111; overflow: hidden; 
+            align-self: flex-start; transform-style: preserve-3d;
             transition: transform 0.15s ease-out, box-shadow 0.3s ease;
-            box-shadow: 0 0 0 rgba(255,255,255,0);
-            cursor: pointer;
+            box-shadow: 0 0 0 rgba(255,255,255,0); cursor: pointer;
         }
         
         .profile-img {
-            width: 100%; 
-            height: auto; 
-            display: block;
-            filter: contrast(1.1); 
-            transform: scale(1.1);
+            width: 100%; height: auto; display: block;
+            filter: contrast(1.1); transform: scale(1.1);
             transition: filter 0.5s ease, transform 0.5s ease;
             pointer-events: none; 
         }
-
-        .photo-frame:hover {
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
+        .photo-frame:hover { box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
 
         .bio-container { flex: 1; padding-top: 10px; }
         .bio-text { font-size: 21px; font-weight: 300; color: #ccc; margin-bottom: 30px; }
         .bio-text strong { color: #fff; font-weight: 500; }
 
-        /* --- REDES SOCIAIS --- */
-        .socials-wrapper {
-            margin-top: 40px;
-            display: flex;
-            gap: 25px;
-            flex-wrap: wrap;
-        }
+        /* REDES SOCIAIS */
+        .socials-wrapper { margin-top: 40px; display: flex; gap: 25px; flex-wrap: wrap; }
         .social-link {
-            color: #666;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 400;
-            text-transform: lowercase;
-            letter-spacing: 0.05em;
-            transition: color 0.3s ease, transform 0.3s ease;
-            display: inline-block;
+            color: #666; text-decoration: none; font-size: 15px; font-weight: 400;
+            text-transform: lowercase; letter-spacing: 0.05em;
+            transition: color 0.3s ease, transform 0.3s ease; display: inline-block;
         }
         .social-link:hover { color: #fff; transform: translateY(-2px); }
 
-
-        /* GRID DE INFORMAÇÕES */
+        /* GRID */
         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; border-top: 1px solid #1a1a1a; padding-top: 80px; }
         section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.25em; color: #333; margin-bottom: 40px; font-weight: 600; }
         .item { margin-bottom: 40px; }
@@ -185,94 +140,49 @@
         .client-tag { display: inline-block; padding: 8px 18px; border: 1px solid #222; color: #eee; font-size: 16px; font-weight: 400; transition: 0.4s ease; cursor: default; }
         .client-tag:hover { background-color: #fff; color: #000; border-color: #fff; transform: translateY(-3px); }
 
-        /* --- SEÇÃO CURRÍCULO --- */
-        .cv-section {
-            margin-top: 80px;
-            padding-top: 60px;
-            border-top: 1px solid #1a1a1a;
-        }
+        /* CV */
+        .cv-section { margin-top: 80px; padding-top: 60px; border-top: 1px solid #1a1a1a; }
         .cv-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 15px;
-            padding: 20px 40px;
-            border: 1px solid #fff;
-            color: #fff;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
+            display: inline-flex; align-items: center; gap: 15px; padding: 20px 40px;
+            border: 1px solid #fff; color: #fff; text-decoration: none;
+            font-size: 14px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .cv-button:hover {
-            background-color: #fff;
-            color: #000;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(255,255,255,0.1);
-        }
-        .cv-button .icon {
-            font-size: 18px;
-            transition: transform 0.4s ease;
-        }
-        .cv-button:hover .icon {
-            transform: translateY(3px);
-        }
+        .cv-button:hover { background-color: #fff; color: #000; transform: translateY(-5px); box-shadow: 0 10px 30px rgba(255,255,255,0.1); }
+        .cv-button .icon { font-size: 18px; transition: transform 0.4s ease; }
+        .cv-button:hover .icon { transform: translateY(3px); }
 
         .cta-section { margin-top: 100px; padding-top: 100px; border-top: 1px solid #1a1a1a; text-align: left; }
         .cta-title { font-size: 42px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 40px; }
         
-        .cta-link { 
-            font-size: 24px; font-weight: 300; color: #888; text-decoration: none; 
-            transition: color 0.4s ease; position: relative; display: inline-block; 
-        }
+        .cta-link { font-size: 24px; font-weight: 300; color: #888; text-decoration: none; transition: color 0.4s ease; position: relative; display: inline-block; }
         .cta-link::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -5px; left: 0; background-color: #fff; transition: width 0.4s ease; }
         .cta-link:hover { color: #fff; }
         .cta-link:hover::after { width: 100%; }
 
-
-        /* --- NAVEGAÇÃO DE RODAPÉ (Igual Galeria) --- */
+        /* FOOTER NAV */
         .footer-navigation-container {
-            padding: 120px 0 100px 0; 
-            display: flex;
-            justify-content: space-between; 
-            border-top: 1px solid #1a1a1a;
-            margin-top: 100px;
+            padding: 120px 0 100px 0; display: flex; justify-content: space-between; 
+            border-top: 1px solid #1a1a1a; margin-top: 100px;
         }
-
         .footer-nav-link {
-            text-decoration: none;
-            color: #fff;
-            font-size: clamp(24px, 2.5vw, 32px); 
-            font-weight: 500;
-            letter-spacing: -0.02em;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            transition: all 0.4s ease;
-            white-space: nowrap;
+            text-decoration: none; color: #fff; font-size: clamp(24px, 2.5vw, 32px); 
+            font-weight: 500; letter-spacing: -0.02em; display: flex; align-items: center;
+            gap: 15px; transition: all 0.4s ease; white-space: nowrap;
         }
-
-        .footer-nav-link .arrow {
-            font-weight: 300;
-            transition: transform 0.4s ease;
-            font-size: 0.9em;
-        }
-
+        .footer-nav-link .arrow { font-weight: 300; transition: transform 0.4s ease; font-size: 0.9em; }
         .footer-nav-link:hover { color: #999; }
         .footer-nav-link:hover .arrow { color: #fff; }
-
         .next-page-btn:hover .arrow { transform: translateX(10px); }
         .prev-page-btn:hover .arrow { transform: translateX(-10px); }
 
-        /* --- TRANSIÇÕES DE CORTINA --- */
+        /* CORTINAS */
         .transition-curtain-left {
             position: fixed; top: 0; left: -100%; width: 100%; height: 100%;
             background-color: #000; z-index: 9999; pointer-events: none;
             transition: left 0.8s cubic-bezier(0.8, 0, 0.2, 1);
         }
         .transition-curtain-left.active { left: 0; }
-
         .transition-curtain-right {
             position: fixed; top: 0; left: 100%; width: 100%; height: 100%;
             background-color: #000; z-index: 9999; pointer-events: none;
@@ -289,12 +199,7 @@
             .container { padding: 40px 30px 0 30px; padding-top: 100px; }
             .cta-title { font-size: 32px; }
             .cv-button { width: 100%; justify-content: center; }
-
-            .footer-navigation-container { 
-                flex-direction: column; 
-                gap: 40px; 
-                padding: 60px 0 100px 0;
-            }
+            .footer-navigation-container { flex-direction: column; gap: 40px; padding: 60px 0 100px 0; }
             .footer-nav-link { font-size: 24px; }
             .prev-page-btn { align-self: flex-start; }
             .next-page-btn { align-self: flex-end; }
@@ -306,7 +211,7 @@
     <div class="transition-curtain-left"></div>
     <div class="transition-curtain-right"></div>
 
-    <nav class="top-nav reveal-element">
+    <nav class="top-nav reveal-base reveal-fast">
         <a href="index.html" class="nav-link"><span class="lang-pt">← voltar</span><span class="lang-en">← back</span></a>
         <div class="lang-switcher">
             <span id="btn-pt" class="lang-btn active" onclick="switchLang('pt')">PT</span>
@@ -318,27 +223,28 @@
 
     <div class="container">
         <header>
-            <h1 class="reveal-element"><span class="lang-pt">Sobre</span><span class="lang-en">About</span></h1>
+            <h1 class="reveal-base reveal-fast"><span class="lang-pt">Sobre</span><span class="lang-en">About</span></h1>
+            
             <div class="header-wrapper">
-                <div class="photo-frame reveal-element" id="tilt-frame">
+                <div class="photo-frame reveal-base reveal-fast" id="tilt-frame">
                     <img src="img/fotosobre.png" alt="Ryan Vieira" class="profile-img" id="myPhoto">
                 </div>
 
                 <div class="bio-container">
-                    <p class="bio-text reveal-element">
+                    <p class="bio-text reveal-base reveal-slow">
                         <span class="lang-pt">Designer gráfico com <strong>5 anos de experiência</strong>, apaixonado por criar, colocar minha visão nas coisas e transformar ideias em realidade.</span>
                         <span class="lang-en">Graphic designer with <strong>5 years of experience</strong>, passionate about creating, applying my vision, and turning ideas into reality.</span>
                     </p>
-                    <p class="bio-text reveal-element">
+                    <p class="bio-text reveal-base reveal-slow">
                         <span class="lang-pt">Minha trajetória começou no <strong>NAVE Rio</strong>, onde me formei como Técnico em Multimídia. Lá explorei diversas possibilidades criativas, desde zines até podcasts.</span>
                         <span class="lang-en">My journey began at <strong>NAVE Rio</strong>, where I graduated as a Multimedia Technician. There I explored various creative paths, from zines to podcasts.</span>
                     </p>
-                    <p class="bio-text reveal-element">
+                    <p class="bio-text reveal-base reveal-slow">
                         <span class="lang-pt">Sou viciado em texturas, torcedor do Vasco e fã do Frank Ocean. Coloco minha marca e um pedaço de mim em cada projeto desenvolvido.</span>
                         <span class="lang-en">I'm obsessed with textures, a Vasco da Gama supporter, and a Frank Ocean fan. I put my personal mark on every project I develop.</span>
                     </p>
 
-                    <div class="socials-wrapper reveal-element">
+                    <div class="socials-wrapper reveal-base reveal-fast">
                         <a href="https://www.instagram.com/ryvieira_/" target="_blank" class="social-link">Instagram ↗</a>
                         <a href="https://www.behance.net/ryvieira_" target="_blank" class="social-link">Behance ↗</a>
                         <a href="https://br.pinterest.com/ryvieira_/" target="_blank" class="social-link">Pinterest ↗</a>
@@ -350,18 +256,18 @@
         <div class="info-grid">
             <div class="grid-column">
                 <section>
-                    <h2 class="reveal-element"><span class="lang-pt">Experiências</span><span class="lang-en">Experience</span></h2>
-                    <div class="item reveal-element">
+                    <h2 class="reveal-base reveal-fast"><span class="lang-pt">Experiências</span><span class="lang-en">Experience</span></h2>
+                    <div class="item reveal-base reveal-fast">
                         <h3><span class="lang-pt">Estagiário de Design</span><span class="lang-en">Design Intern</span></h3>
                         <p>ECOA PUC-Rio</p>
                         <span class="date">2025 — <span class="lang-pt">AGORA</span><span class="lang-en">NOW</span></span>
                     </div>
-                    <div class="item reveal-element">
+                    <div class="item reveal-base reveal-fast">
                         <h3>Designer Gráfico</h3>
                         <p>Agência AVA</p>
                         <span class="date">2023 — 2024</span>
                     </div>
-                    <div class="item reveal-element">
+                    <div class="item reveal-base reveal-fast">
                         <h3>Freelancer</h3>
                         <p><span class="lang-pt">Independente</span><span class="lang-en">Independent</span></p>
                         <span class="date">2020 — <span class="lang-pt">AGORA</span><span class="lang-en">NOW</span></span>
@@ -371,20 +277,20 @@
 
             <div class="grid-column">
                 <section>
-                    <h2 class="reveal-element"><span class="lang-pt">Educação</span><span class="lang-en">Education</span></h2>
-                    <div class="item reveal-element">
+                    <h2 class="reveal-base reveal-fast"><span class="lang-pt">Educação</span><span class="lang-en">Education</span></h2>
+                    <div class="item reveal-base reveal-fast">
                         <h3><span class="lang-pt">Graduação em Design</span><span class="lang-en">Bachelor of Design</span></h3>
                         <p>PUC-Rio</p>
                         <span class="date">2024 — 2027</span>
                     </div>
-                    <div class="item reveal-element">
+                    <div class="item reveal-base reveal-fast">
                         <h3><span class="lang-pt">Técnico em Multimídia</span><span class="lang-en">Multimedia Technician</span></h3>
                         <p>NAVE Rio</p>
                         <span class="date">2019 — 2022</span>
                     </div>
                 </section>
 
-                <section style="margin-top: 80px;" class="reveal-element">
+                <section style="margin-top: 80px;" class="reveal-base reveal-fast">
                     <h2><span class="lang-pt">Alguns Clientes</span><span class="lang-en">Select Clients</span></h2>
                     <div class="clients-wrapper">
                         <span class="client-tag">Any Gabrielly</span>
@@ -398,7 +304,7 @@
             </div>
         </div>
 
-        <section class="cv-section reveal-element lang-pt">
+        <section class="cv-section reveal-base reveal-fast lang-pt">
             <h2>Currículo</h2>
             <a href="pdf/ryan-vieira-cv.pdf" download class="cv-button">
                 Baixar CV completo
@@ -406,7 +312,7 @@
             </a>
         </section>
 
-        <section class="cta-section reveal-element">
+        <section class="cta-section reveal-base reveal-fast">
             <h2 class="cta-title">
                 <span class="lang-pt">Trabalhando em algo novo? <br> Vamos conversar.</span>
                 <span class="lang-en">Working on something new? <br> Let's talk.</span>
@@ -417,7 +323,7 @@
             </a>
         </section>
 
-        <div class="footer-navigation-container reveal-element">
+        <div class="footer-navigation-container reveal-base reveal-fast">
             <a href="galeria.html" class="footer-nav-link prev-page-btn">
                 <span class="arrow">←</span>
                 <span class="lang-pt">Galeria</span>
@@ -451,14 +357,22 @@
             localStorage.setItem('ryanLang', lang);
         }
 
-        // --- LÓGICA DE ANIMAÇÃO CASCATA (LINE BY LINE) ---
-        // Pega todos os elementos com a classe .reveal-element e anima um por um
+        // --- LÓGICA DE ANIMAÇÃO DINÂMICA (Fast vs Slow) ---
         document.addEventListener('DOMContentLoaded', () => {
-            const elementsToReveal = document.querySelectorAll('.reveal-element');
-            elementsToReveal.forEach((el, index) => {
+            const elements = document.querySelectorAll('.reveal-base');
+            let currentDelay = 0;
+
+            elements.forEach((el) => {
+                // Se for "slow" (texto da bio), adiciona muito delay (600ms) para tempo de leitura
+                // Se for "fast" (resto), adiciona pouco delay (100ms)
+                const isSlow = el.classList.contains('reveal-slow');
+                const increment = isSlow ? 600 : 100;
+
                 setTimeout(() => {
                     el.classList.add('active');
-                }, 100 * index); // 100ms de delay entre cada item
+                }, currentDelay);
+
+                currentDelay += increment;
             });
         });
 
