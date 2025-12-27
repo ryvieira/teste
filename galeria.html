@@ -5,12 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ryan Vieira — Galeria</title>
     
+    <meta name="description" content="Galeria de artes visuais e design gráfico de Ryan Vieira.">
+    
     <link rel="icon" type="image/x-icon" href="img/favicon_r.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
 
     <style>
+       /* Cor da seleção de texto */
+::selection {
+    background-color: #fff;
+    color: #000;
+}
+
+/* Barra de rolagem customizada (Webkit - Chrome/Safari) */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #050505;
+}
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
         /* BASE & RESET */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
@@ -158,17 +181,16 @@
 
         .art-item:hover img { transform: scale(1.05); }
 
-        /* --- NAVEGAÇÃO DE RODAPÉ (PROJETOS / SOBRE) --- */
+        /* --- NAVEGAÇÃO DE RODAPÉ --- */
         .footer-navigation-container {
             padding: 60px 3rem 100px 3rem;
             max-width: 1400px;
             margin: 0 auto;
             display: flex;
-            justify-content: space-between; /* Separa os links */
+            justify-content: space-between; 
             border-top: 1px solid #1a1a1a;
         }
 
-        /* Estilo base para os links do rodapé */
         .footer-nav-link {
             text-decoration: none;
             color: #fff;
@@ -191,15 +213,23 @@
         .footer-nav-link:hover { color: #999; }
         .footer-nav-link:hover .arrow { color: #fff; }
 
-        /* Animação específica para a direita (Sobre) */
-        .next-page-btn:hover .arrow {
-            transform: translateX(10px);
-        }
+        .next-page-btn:hover .arrow { transform: translateX(10px); }
+        .prev-page-btn:hover .arrow { transform: translateX(-10px); }
 
-        /* Animação específica para a esquerda (Projetos) */
-        .prev-page-btn:hover .arrow {
-            transform: translateX(-10px);
+        /* --- TRANSIÇÕES DE CORTINA --- */
+        .transition-curtain-left {
+            position: fixed; top: 0; left: -100%; width: 100%; height: 100%;
+            background-color: #000; z-index: 9999; pointer-events: none;
+            transition: left 0.8s cubic-bezier(0.8, 0, 0.2, 1);
         }
+        .transition-curtain-left.active { left: 0; }
+
+        .transition-curtain-right {
+            position: fixed; top: 0; left: 100%; width: 100%; height: 100%;
+            background-color: #000; z-index: 9999; pointer-events: none;
+            transition: left 0.8s cubic-bezier(0.8, 0, 0.2, 1);
+        }
+        .transition-curtain-right.active { left: 0; }
 
         /* LIGHTBOX */
         #lightbox {
@@ -273,20 +303,21 @@
             .nav-arrow { display: none; } 
             .lightbox-caption { bottom: 20px; font-size: 12px; width: 90%; }
             
-            /* Ajuste mobile do rodapé */
             .footer-navigation-container { 
                 flex-direction: column; 
                 gap: 40px; 
                 padding: 40px 1.5rem 80px 1.5rem; 
             }
             .footer-nav-link { font-size: 24px; }
-            /* Mantém o alinhamento mesmo empilhado */
             .prev-page-btn { align-self: flex-start; }
             .next-page-btn { align-self: flex-end; }
         }
     </style>
 </head>
 <body>
+
+    <div class="transition-curtain-left"></div>
+    <div class="transition-curtain-right"></div>
 
     <header>
         <a href="index.html" class="back-link"><span class="lang-pt">← voltar</span><span class="lang-en">← back</span></a>
@@ -321,33 +352,34 @@
             <div class="art-item" data-category="brands"><img src="img/galeria/metro.jpg" alt="Faz Tempo Que Não Ando De Metrô"></div>
             <div class="art-item" data-category="brands"><img src="img/galeria/nike.jpg" alt="Nike - Out Of This World"></div>
             <div class="art-item" data-category="brands"><img src="img/galeria/vans.jpg" alt="Vans Old Skool"></div>
-            <div class="art-item" data-category="brands"><img src="img/galeria/nope.jpg" alt="NOPE"></div>
-            <div class="art-item" data-category="exp"><img src="img/galeria/meios.jpg" alt="Meios"></div>
-            <div class="art-item" data-category="music"><img src="img/galeria/manonamission.jpg" alt="Man on a Mission"></div>
-            <div class="art-item" data-category="music"><img src="img/galeria/mid90s.jpg" alt="Mid90s"></div>
-            <div class="art-item" data-category="brands"><img src="img/galeria/converse.jpg" alt="Converse"></div>
-            <div class="art-item" data-category="music"><img src="img/galeria/afterhours.jpg" alt="After Hours"></div>
-            <div class="art-item" data-category="music"><img src="img/galeria/dawnfm.jpg" alt="Dawn FM"></div>
-            <div class="art-item" data-category="exp"><img src="img/galeria/euphoria.jpg" alt="Euphoria"></div>
-            <div class="art-item" data-category="music"><img src="img/galeria/rauw.jpg" alt="Rauw - O Pai do Reggaeton Moderno"></div>
-            <div class="art-item" data-category="music"><img src="img/galeria/utopia.jpg" alt="Utopia"></div>
-            <div class="art-item" data-category="exp"><img src="img/galeria/borboleta.jpg" alt="Ninguém Nasce Borboleta"></div>
-            <div class="art-item" data-category="exp"><img src="img/galeria/exp1.jpg" alt="Experiment 01"></div>
-            <div class="art-item" data-category="exp"><img src="img/galeria/exp2.jpg" alt="Experiment 02"></div>
-            <div class="art-item" data-category="exp"><img src="img/galeria/exp4.jpg" alt="Experiment 04"></div>
-            <div class="art-item" data-category="exp"><img src="img/galeria/floating.jpg" alt="We Here FOREVER (technically)"></div>
-            <div class="art-item" data-category="music"><img src="img/galeria/ghost.jpg" alt="When Did I Become a Ghost?"></div>
-            <div class="art-item" data-category="exp"><img src="img/galeria/godwe.jpg" alt="God We Wasted So Many Days"></div>
-            <div class="art-item" data-category="exp"><img src="img/galeria/ocorpo.jpg" alt="O Corpo"></div>
-            <div class="art-item" data-category="exp"><img src="img/galeria/saidafoto.jpg" alt="Uma Hora Todo Mundo Sai Da Foto"></div>
-            <div class="art-item" data-category="music"><img src="img/galeria/soulmates.jpg" alt="Soulmates Become Soulless"></div>
-            <div class="art-item" data-category="exp"><img src="img/galeria/tucanotuco.png" alt="Tucano Tuco - PARLA 2024"></div>
-            <div class="art-item" data-category="exp"><img src="img/galeria/beforesunrise.jpg" alt="Before Sunrise"></div>
-            <div class="art-item" data-category="music"><img src="img/galeria/fallingdown.jpg" alt="It All Falls Down"></div>
-            <div class="art-item" data-category="music"><img src="img/galeria/girlypop.jpg" alt="Girly Pop - Amaarae"></div>
-            <div class="art-item" data-category="exp"><img src="img/galeria/judgmentday.jpg" alt="Judgment Day"></div>
-            <div class="art-item" data-category="exp"><img src="img/galeria/plant.jpg" alt="Plant"></div>
-            <div class="art-item" data-category="exp"><img src="img/galeria/when.jpg" alt="When"></div>
+
+            <div class="art-item" data-category="brands"><img src="img/galeria/nope.jpg" alt="NOPE" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/meios.jpg" alt="Meios" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="music"><img src="img/galeria/manonamission.jpg" alt="Man on a Mission" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="music"><img src="img/galeria/mid90s.jpg" alt="Mid90s" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="brands"><img src="img/galeria/converse.jpg" alt="Converse" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="music"><img src="img/galeria/afterhours.jpg" alt="After Hours" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="music"><img src="img/galeria/dawnfm.jpg" alt="Dawn FM" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/euphoria.jpg" alt="Euphoria" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="music"><img src="img/galeria/rauw.jpg" alt="Rauw - O Pai do Reggaeton Moderno" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="music"><img src="img/galeria/utopia.jpg" alt="Utopia" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/borboleta.jpg" alt="Ninguém Nasce Borboleta" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/exp1.jpg" alt="Experiment 01" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/exp2.jpg" alt="Experiment 02" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/exp4.jpg" alt="Experiment 04" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/floating.jpg" alt="We Here FOREVER (technically)" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="music"><img src="img/galeria/ghost.jpg" alt="When Did I Become a Ghost?" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/godwe.jpg" alt="God We Wasted So Many Days" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/ocorpo.jpg" alt="O Corpo" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/saidafoto.jpg" alt="Uma Hora Todo Mundo Sai Da Foto" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="music"><img src="img/galeria/soulmates.jpg" alt="Soulmates Become Soulless" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/tucanotuco.png" alt="Tucano Tuco - PARLA 2024" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/beforesunrise.jpg" alt="Before Sunrise" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="music"><img src="img/galeria/fallingdown.jpg" alt="It All Falls Down" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="music"><img src="img/galeria/girlypop.jpg" alt="Girly Pop - Amaarae" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/judgmentday.jpg" alt="Judgment Day" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/plant.jpg" alt="Plant" loading="lazy" decoding="async"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/when.jpg" alt="When" loading="lazy" decoding="async"></div>
         </section>
 
         <div class="footer-navigation-container">
@@ -407,7 +439,6 @@
             });
         });
 
-        // --- LÓGICA DE NAVEGAÇÃO DO LIGHTBOX ---
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = lightbox.querySelector('img');
         const lightboxCaption = lightbox.querySelector('.lightbox-caption');
@@ -419,10 +450,8 @@
         function openLightbox(index) {
             currentImgIndex = index;
             const currentImage = visibleImages[currentImgIndex];
-            
             lightboxImg.src = currentImage.src;
             lightboxCaption.innerText = currentImage.alt;
-            
             lightbox.classList.add('active');
             bodyEl.classList.add('no-scroll');
         }
@@ -430,7 +459,6 @@
         function navigate(direction) {
             currentImgIndex = (currentImgIndex + direction + visibleImages.length) % visibleImages.length;
             const nextImage = visibleImages[currentImgIndex];
-            
             lightboxImg.src = nextImage.src;
             lightboxCaption.innerText = nextImage.alt;
         }
@@ -459,7 +487,6 @@
 
         window.addEventListener('keydown', (e) => {
             if (!lightbox.classList.contains('active')) return;
-            
             if (e.key === 'ArrowRight') navigate(1);
             if (e.key === 'ArrowLeft') navigate(-1);
             if (e.key === 'Escape') {
@@ -467,6 +494,30 @@
                 bodyEl.classList.remove('no-scroll');
             }
         });
+
+        // --- TRANSIÇÕES ---
+        const curtainLeft = document.querySelector('.transition-curtain-left');
+        const curtainRight = document.querySelector('.transition-curtain-right');
+        const prevPageBtn = document.querySelector('.prev-page-btn'); 
+        const nextPageBtn = document.querySelector('.next-page-btn'); 
+
+        if(prevPageBtn) {
+            prevPageBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const url = prevPageBtn.href;
+                curtainLeft.classList.add('active');
+                setTimeout(() => window.location.href = url, 800);
+            });
+        }
+
+        if(nextPageBtn) {
+            nextPageBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const url = nextPageBtn.href;
+                curtainRight.classList.add('active');
+                setTimeout(() => window.location.href = url, 800);
+            });
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
             const savedLang = localStorage.getItem('ryanLang');
