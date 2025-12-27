@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ryan Vieira — Capas de Álbuns Vol.1</title>
-    
+    <link rel="icon" type="image/x-icon" href="img/favicon_r.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -14,6 +14,18 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+
+        /* --- BARRA DE PROGRESSO VERTICAL (ESQUERDA) --- */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 3px; /* Espessura da barra */
+            height: 0%; /* Altura inicial */
+            background-color: #fff; 
+            z-index: 9999; 
+            transition: height 0.1s linear;
+        }
 
         /* --- LÓGICA MULTILINGUE --- */
         .lang-en { display: none; }
@@ -197,6 +209,8 @@
 </head>
 <body id="top">
 
+    <div id="scroll-progress"></div>
+
     <nav class="top-nav fade-in">
         <a href="projetos.html" class="nav-link">
             <span class="lang-pt">← voltar</span>
@@ -231,7 +245,7 @@
                     <span class="lang-en">Album Covers<br>Vol. 1</span>
                 </h2>
                 <div class="category-tag">
-                    <span class="lang-pt">Identidade Visual, Música</span>
+                    <span class="lang-pt">Direção de Arte, Música</span>
                     <span class="lang-en">Visual Identity, Music</span>
                 </div>
             </div>
@@ -259,8 +273,8 @@
                 <img src="img/saoko.png" alt="Capa 8">
                 <img src="img/umaloucura.png" alt="Capa 9">
                 <img src="img/pinktape.png" alt="Capa 10">
-                <img src="img/partedois.png" alt="Capa 11">
-                <img src="img/sos.jpg" alt="Capa 12">
+                <img src="img/giveon.jpg" alt="Capa 11">
+                <img src="img/dmb.jpg" alt="Capa 12">
             </div>
         </section>
 
@@ -356,6 +370,25 @@
                 </div>
             </article>
 
+              <article class="album-item fade-in">
+                <div class="album-art">
+                    <img src="img/giveon.jpg" alt="Giveon">
+                </div>
+                <div class="album-text">
+                    <span class="album-artist">Giveon</span>
+                    <h3 class="album-title">Give Or Take 
+                    </h3>
+                </div>
+            </article>
+
+               <article class="album-item reverse fade-in">
+                <div class="album-art"><img src="img/dmb.jpg" alt="Asap Rocky Album"></div>
+                <div class="album-text">
+                    <span class="album-artist">A$AP Rocky</span>
+                    <h3 class="album-title">D.M.B</h3>
+                </div>
+            </article>
+
             <section class="credits fade-in">
                 <h2><span class="lang-pt">Créditos</span><span class="lang-en">Credits</span></h2>
                 <dl class="credits-list">
@@ -375,7 +408,7 @@
                     <span class="lang-pt">Próximo Projeto</span>
                     <span class="lang-en">Next Project</span>
                 </span><br>
-                <a href="type-season.html" class="next-project-link">Type Season Vol.1 →</a>
+                <a href="typeseason.html" class="next-project-link">Type Season Vol.1 →</a>
             </section>
         </div>
     </main>
@@ -386,6 +419,7 @@
         const bodyEl = document.body;
         const btnPt = document.getElementById('btn-pt');
         const btnEn = document.getElementById('btn-en');
+        const scrollProgress = document.getElementById('scroll-progress'); // Referência à barra
 
         function switchLang(lang) {
             if (lang === 'en') {
@@ -428,6 +462,13 @@
 
             window.addEventListener('scroll', () => {
                 const scrollPosition = window.scrollY;
+
+                // LÓGICA DA BARRA DE PROGRESSO VERTICAL
+                const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrollPercentage = (scrollTop / scrollHeight) * 100;
+                scrollProgress.style.height = scrollPercentage + '%';
+
                 if (scrollPosition > 400) btnBackToTop.classList.add('visible');
                 else btnBackToTop.classList.remove('visible');
 

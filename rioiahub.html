@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nome do Projeto — Ryan Vieira</title>
+    
+    <link rel="icon" type="image/x-icon" href="img/favicon_r.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* BASE & RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* LÓGICA MULTILINGUE */
+        .lang-en { display: none; }
+        body.en-active .lang-pt { display: none; }
+        body.en-active .lang-en { display: inline; }
+        body.en-active div.lang-en { display: block; }
+
+        /* ANIMAÇÃO DE ENTRADA */
+        @keyframes reveal {
+            from { opacity: 0; transform: translateY(20px); filter: blur(5px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+        .fade-in { animation: reveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        /* NAVEGAÇÃO SUPERIOR */
+        .top-nav {
+            position: fixed; top: 50px; left: 0; width: 100%; padding: 0 50px;
+            display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+            z-index: 2000; pointer-events: none;
+        }
+        .nav-link { pointer-events: auto; text-decoration: none; color: #444; font-size: 13px; text-transform: lowercase; letter-spacing: 0.2em; transition: 0.3s; font-weight: 300; justify-self: start; }
+        .nav-link:hover { color: #fff; }
+        .lang-switcher { pointer-events: auto; display: flex; gap: 10px; font-size: 11px; letter-spacing: 0.1em; justify-self: center; }
+        .lang-btn { cursor: pointer; color: #333; transition: 0.3s; }
+        .lang-btn.active { color: #fff; font-weight: 600; }
+        .page-id { color: #444; font-size: 13px; text-transform: lowercase; letter-spacing: 0.2em; justify-self: end; }
+
+        /* LAYOUT CONTAINER */
+        .container { max-width: 1300px; margin: 0 auto; padding: 160px 50px 100px 50px; }
+        
+        /* HERO SECTION */
+        .hero { margin-bottom: 120px; }
+        .hero h1 { font-size: clamp(40px, 8vw, 100px); font-weight: 600; letter-spacing: -0.04em; margin-bottom: 20px; line-height: 0.9; }
+        .hero p { font-size: 18px; color: #888; max-width: 600px; font-weight: 300; }
+
+        /* IMAGEM PRINCIPAL */
+        .main-image { width: 100%; height: 80vh; object-fit: cover; margin-bottom: 100px; background-color: #050505; }
+
+        /* GRID EDITORIAL */
+        .section-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; margin-bottom: 150px; align-items: start; }
+        .section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.3em; color: #333; margin-bottom: 30px; display: block; }
+        .content-text { font-size: 24px; font-weight: 300; color: #ccc; line-height: 1.4; }
+        .content-text strong { color: #fff; font-weight: 500; }
+
+        /* PALETA DE CORES */
+        .color-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .color-swatch { height: 120px; display: flex; align-items: flex-end; padding: 15px; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid #1a1a1a; }
+
+        /* SEÇÃO DE MOCKUPS */
+        .mockup-wide { width: 100%; height: auto; margin-bottom: 40px; display: block; background-color: #050505; }
+        .mockup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+        .mockup-item { width: 100%; height: auto; object-fit: cover; background-color: #050505; }
+
+        /* FOOTER CTA */
+        .cta-section { padding-top: 100px; border-top: 1px solid #1a1a1a; margin-top: 100px; }
+        .cta-link { font-size: 28px; text-decoration: none; color: #888; transition: 0.4s; position: relative; }
+        .cta-link::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -5px; left: 0; background-color: #fff; transition: 0.4s; }
+        .cta-link:hover { color: #fff; }
+        .cta-link:hover::after { width: 100%; }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 900px) {
+            .top-nav { grid-template-columns: 1fr 1fr; padding: 20px 30px; top: 20px; }
+            .lang-switcher { grid-row: 2; grid-column: 1 / span 2; margin-top: 15px; }
+            .section-grid { grid-template-columns: 1fr; gap: 40px; }
+            .container { padding: 120px 30px 60px 30px; }
+            .main-image { height: 50vh; }
+            .mockup-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav fade-in">
+        <a href="projetos.html" class="nav-link">
+            <span class="lang-pt">← voltar</span>
+            <span class="lang-en">← back</span>
+        </a>
+        <div class="lang-switcher">
+            <span id="btn-pt" class="lang-btn active" onclick="switchLang('pt')">PT</span>
+            <span style="color: #222;">|</span>
+            <span id="btn-en" class="lang-btn" onclick="switchLang('en')">EN</span>
+        </div>
+        <span class="page-id">ryan vieira — projeto</span>
+    </nav>
+
+    <div class="container fade-in">
+        <header class="hero">
+            <h1>Título do Projeto</h1>
+            <p>
+                <span class="lang-pt">Uma breve descrição sobre o que se trata este projeto e o seu papel nele.</span>
+                <span class="lang-en">A brief description of what this project is about and your role in it.</span>
+            </p>
+        </header>
+
+        <img src="img/placeholder-capa.jpg" alt="Capa do Projeto" class="main-image">
+
+        <div class="section-grid">
+            <div>
+                <span class="section-label">Briefing</span>
+                <div class="content-text">
+                    <span class="lang-pt">Explique aqui o desafio do projeto, o objetivo do cliente e como você abordou a solução.</span>
+                    <span class="lang-en">Explain the project challenge, the client's objective, and how you approached the solution here.</span>
+                </div>
+            </div>
+            <div>
+                <span class="section-label">Concept</span>
+                <div class="content-text">
+                    <span class="lang-pt">Fale sobre a ideia central, as referências visuais ou a narrativa que guia a identidade.</span>
+                    <span class="lang-en">Talk about the central idea, visual references, or the narrative guiding the identity.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-grid">
+            <div>
+                <span class="section-label">Typography</span>
+                <div class="content-text">
+                    <span class="lang-pt">Descreva as escolhas tipográficas e como elas ajudam a transmitir a mensagem do projeto.</span>
+                    <span class="lang-en">Describe the typographic choices and how they help convey the project's message.</span>
+                </div>
+            </div>
+            <div class="color-grid">
+                <div class="color-swatch" style="background: #ffffff; color: #000;">#FFFFFF</div>
+                <div class="color-swatch" style="background: #333333; color: #fff;">#333333</div>
+                <div class="color-swatch" style="background: #000000; color: #fff;">#000000</div>
+            </div>
+        </div>
+
+        <span class="section-label">Visuals</span>
+        <img src="img/placeholder-mockup-1.jpg" class="mockup-wide" alt="Aplicação 1">
+        
+        <div class="mockup-grid">
+            <img src="img/placeholder-mockup-2.jpg" class="mockup-item" alt="Aplicação 2">
+            <img src="img/placeholder-mockup-3.jpg" class="mockup-item" alt="Aplicação 3">
+        </div>
+
+        <img src="img/placeholder-mockup-4.jpg" class="mockup-wide" alt="Aplicação 4">
+
+        <section class="cta-section">
+            <a href="projetos.html" class="cta-link">
+                <span class="lang-pt">Explorar outros projetos ↗</span>
+                <span class="lang-en">Explore other projects ↗</span>
+            </a>
+        </section>
+    </div>
+
+    <footer>
+        <p style="text-align: center; padding: 80px 0; color: #222; font-size: 11px; letter-spacing: 0.2em;">
+            © 2025 RYAN VIEIRA. ALL RIGHTS RESERVED.
+        </p>
+    </footer>
+
+    <script>
+        const bodyEl = document.body;
+        function switchLang(lang) {
+            if (lang === 'en') {
+                bodyEl.classList.add('en-active');
+                document.getElementById('btn-en').classList.add('active');
+                document.getElementById('btn-pt').classList.remove('active');
+            } else {
+                bodyEl.classList.remove('en-active');
+                document.getElementById('btn-pt').classList.add('active');
+                document.getElementById('btn-en').classList.remove('active');
+            }
+            localStorage.setItem('ryanLang', lang);
+        }
+
+        const savedLang = localStorage.getItem('ryanLang');
+        if (savedLang) switchLang(savedLang);
+    </script>
+</body>
+</html>

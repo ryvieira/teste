@@ -4,16 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ryan Vieira — Portfolio</title>
-    <link rel="icon" type="image/x-icon" href="favicon_r.ico">
+    
+    <link rel="icon" type="image/x-icon" href="img/favicon_r.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
 
     <style>
-        /* RESET & BASE */
+        /* === RESET & CORE === */
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            background-color: #000;
+            background-color: #050505;
             color: #fff;
             font-family: 'Inter', sans-serif;
             height: 100vh; width: 100vw;
@@ -21,130 +23,200 @@
             display: flex;
             align-items: center; justify-content: center;
             -webkit-font-smoothing: antialiased;
+            perspective: 2500px;
         }
 
-        /* --- LÓGICA MULTILINGUE --- */
+        /* --- THE SLICE LOADER --- */
+        #loader-wrapper {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 9999;
+            display: flex; /* Cria colunas */
+            pointer-events: none;
+        }
+
+        /* As 5 colunas pretas */
+        .loader-slice {
+            width: 20%; /* 100% / 5 = 20% */
+            height: 100%;
+            background-color: #000;
+            position: relative;
+            transform-origin: top;
+            transition: transform 1s cubic-bezier(0.76, 0, 0.24, 1); /* Curva suave */
+        }
+
+        /* O Contador Gigante */
+        .loader-counter-container {
+            position: fixed;
+            bottom: 20px;
+            right: 40px;
+            z-index: 10000;
+            overflow: hidden; /* Para esconder quando sair */
+        }
+
+        .loader-counter {
+            font-size: clamp(80px, 15vw, 200px);
+            font-weight: 300;
+            color: #fff;
+            line-height: 0.8;
+            letter-spacing: -0.06em;
+            transition: transform 0.8s ease;
+        }
+
+        /* ANIMAÇÃO DE SAÍDA (QUANDO CARREGADO) */
+        
+        /* 1. O Contador desce */
+        body.loaded .loader-counter { transform: translateY(100%); }
+
+        /* 2. As fatias sobem com atraso (Stagger Effect) */
+        body.loaded .slice-1 { transform: translateY(-100%); transition-delay: 0.2s; }
+        body.loaded .slice-2 { transform: translateY(-100%); transition-delay: 0.3s; }
+        body.loaded .slice-3 { transform: translateY(-100%); transition-delay: 0.4s; }
+        body.loaded .slice-4 { transform: translateY(-100%); transition-delay: 0.5s; }
+        body.loaded .slice-5 { transform: translateY(-100%); transition-delay: 0.6s; }
+
+
+        /* --- CONTEÚDO DO SITE (Entrada) --- */
+        .main-container, footer, .lang-switcher {
+            opacity: 0;
+            transform: scale(1.1); /* Zoom out suave */
+            transition: all 1.2s cubic-bezier(0.2, 1, 0.3, 1);
+            transition-delay: 0.8s; /* Espera as fatias subirem */
+        }
+        
+        body.loaded .main-container,
+        body.loaded footer,
+        body.loaded .lang-switcher { 
+            opacity: 1; 
+            transform: scale(1); 
+        }
+
+        /* RESTO DO CSS PADRÃO */
+        body::after {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Grain_Texture.png');
+            opacity: 0.05; pointer-events: none; z-index: 5000;
+        }
+
+        .bg-typo-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            pointer-events: none; z-index: 0;
+        }
+        .bg-typo {
+            font-size: 42vw; font-weight: 900; line-height: 0.8;
+            text-align: center; text-transform: uppercase;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.08);
+            transform-origin: center; will-change: transform;
+            transition: transform 0.1s linear;
+        }
+
         .lang-en { display: none; }
         body.en-active .lang-pt { display: none; }
         body.en-active .lang-en { display: inline-block; }
 
-        /* SELETOR DE IDIOMAS (Topo Centralizado) */
         .lang-switcher {
-            position: fixed;
-            top: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            font-size: 11px;
-            letter-spacing: 0.1em;
-            z-index: 2000;
-            pointer-events: auto;
-            user-select: none;
+            position: fixed; top: 50px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 10px; font-size: 11px; letter-spacing: 0.1em; z-index: 2000;
+            pointer-events: auto; user-select: none;
         }
-        .lang-btn { cursor: pointer; color: #333; transition: 0.3s; }
+        .lang-btn { cursor: pointer; color: #444; transition: 0.3s; }
         .lang-btn.active { color: #fff; font-weight: 600; }
-        .lang-btn:hover { color: #888; }
 
-        /* --- CONTAINER DE PREVIEW --- */
         .preview-container {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            perspective: 1200px;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1; 
+            transform-style: preserve-3d; transition: transform 0.1s linear;
         }
-
-        .preview-group {
-            position: absolute; width: 100%; height: 100%;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
+        .preview-group { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 0.4s ease; transform-style: preserve-3d; }
         .preview-group.active { opacity: 1; }
 
         .preview-img {
-            position: absolute;
-            width: clamp(140px, 12vw, 220px);
-            height: auto;
-            object-fit: cover;
-            opacity: 0;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-            transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+            position: absolute; width: clamp(150px, 12vw, 250px); height: auto;
+            object-fit: cover; top: 50%; left: 50%;
+            border-radius: 0; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            opacity: 0; filter: blur(20px) grayscale(1) brightness(0.5);
+            transform: translate(-50%, -50%) scale(0.3) translateZ(-300px) rotate(0deg);
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            will-change: transform, opacity, filter;
         }
+        .preview-group.active .preview-img { opacity: 0.7; filter: blur(0px) grayscale(0) brightness(1); }
 
-        .active .preview-img { opacity: 0.45; }
+        /* Posições */
+        .p1 { transition-delay: 0.02s; } .active .p1 { transform: translate(-380%, -240%) scale(1.3) rotate(-8deg) translateZ(0); }
+        .p2 { transition-delay: 0.08s; } .active .p2 { transform: translate(-230%, -190%) scale(0.8) rotate(5deg) translateZ(0); }
+        .p3 { transition-delay: 0.04s; } .active .p3 { transform: translate(-50%, -330%) scale(1.0) rotate(-2deg) translateZ(0); }
+        .p4 { transition-delay: 0.12s; } .active .p4 { transform: translate(50%, -230%) scale(0.9) rotate(10deg) translateZ(0); }
+        .p5 { transition-delay: 0.06s; } .active .p5 { transform: translate(190%, -260%) scale(1.2) rotate(6deg) translateZ(0); }
+        .p6 { transition-delay: 0.15s; } .active .p6 { transform: translate(330%, -200%) scale(0.9) rotate(-4deg) translateZ(0); }
+        .p7 { transition-delay: 0.03s; } .active .p7 { transform: translate(260%, -50%) scale(1.5) rotate(12deg) translateZ(0); z-index: 5; }
+        .p8 { transition-delay: 0.10s; } .active .p8 { transform: translate(220%, 70%) scale(0.7) rotate(-7deg) translateZ(0); }
+        .p9 { transition-delay: 0.05s; } .active .p9 { transform: translate(310%, 190%) scale(1.1) rotate(4deg) translateZ(0); }
+        .p10 { transition-delay: 0.18s; } .active .p10 { transform: translate(150%, 150%) scale(0.8) rotate(-15deg) translateZ(0); }
+        .p11 { transition-delay: 0.04s; } .active .p11 { transform: translate(-50%, 190%) scale(1.2) rotate(3deg) translateZ(0); }
+        .p12 { transition-delay: 0.11s; } .active .p12 { transform: translate(70%, 260%) scale(0.7) rotate(-6deg) translateZ(0); }
+        .p13 { transition-delay: 0.07s; } .active .p13 { transform: translate(-290%, 230%) scale(1.1) rotate(-9deg) translateZ(0); }
+        .p14 { transition-delay: 0.19s; } .active .p14 { transform: translate(-190%, 140%) scale(0.8) rotate(7deg) translateZ(0); }
+        .p15 { transition-delay: 0.05s; } .active .p15 { transform: translate(-360%, -30%) scale(1.5) rotate(-14deg) translateZ(0); z-index: 5; }
+        .p16 { transition-delay: 0.14s; } .active .p16 { transform: translate(-240%, -90%) scale(0.7) rotate(11deg) translateZ(0); }
+        .p17 { transition-delay: 0.21s; } .active .p17 { transform: translate(130%, -310%) scale(0.6) rotate(-3deg) translateZ(0); }
+        .p18 { transition-delay: 0.24s; } .active .p18 { transform: translate(-310%, 310%) scale(0.6) rotate(20deg) translateZ(0); }
 
-        /* SLOTS DE POSICIONAMENTO */
-        .p1 { transition-delay: 0.02s; } .active .p1 { transform: translate(-380%, -240%) scale(1.4) rotate(-8deg); }
-        .p2 { transition-delay: 0.10s; } .active .p2 { transform: translate(-220%, -180%) scale(0.8) rotate(5deg); opacity: 0.3; }
-        .p3 { transition-delay: 0.05s; } .active .p3 { transform: translate(-50%, -320%) scale(1.1) rotate(-2deg); }
-        .p4 { transition-delay: 0.15s; } .active .p4 { transform: translate(40%, -220%) scale(0.9) rotate(10deg); }
-        .p5 { transition-delay: 0.08s; } .active .p5 { transform: translate(180%, -250%) scale(1.5) rotate(6deg); }
-        .p6 { transition-delay: 0.18s; } .active .p6 { transform: translate(320%, -190%) scale(1) rotate(-4deg); }
-        .p7 { transition-delay: 0.03s; } .active .p7 { transform: translate(250%, -40%) scale(1.8) rotate(12deg); z-index: 10; opacity: 0.5; }
-        .p8 { transition-delay: 0.12s; } .active .p8 { transform: translate(210%, 60%) scale(0.7) rotate(-7deg); }
-        .p9 { transition-delay: 0.07s; } .active .p9 { transform: translate(300%, 180%) scale(1.3) rotate(4deg); }
-        .p10 { transition-delay: 0.20s; } .active .p10 { transform: translate(140%, 140%) scale(0.9) rotate(-15deg); }
-        .p11 { transition-delay: 0.04s; } .active .p11 { transform: translate(-50%, 180%) scale(1.6) rotate(3deg); opacity: 0.5; }
-        .p12 { transition-delay: 0.14s; } .active .p12 { transform: translate(60%, 250%) scale(0.8) rotate(-6deg); }
-        .p13 { transition-delay: 0.09s; } .active .p13 { transform: translate(-280%, 220%) scale(1.2) rotate(-9deg); }
-        .p14 { transition-delay: 0.22s; } .active .p14 { transform: translate(-180%, 130%) scale(0.9) rotate(7deg); }
-        .p15 { transition-delay: 0.06s; } .active .p15 { transform: translate(-350%, -20%) scale(1.7) rotate(-14deg); z-index: 10; opacity: 0.5; }
-        .p16 { transition-delay: 0.16s; } .active .p16 { transform: translate(-230%, -80%) scale(0.7) rotate(11deg); }
-        .p17 { transition-delay: 0.25s; } .active .p17 { transform: translate(120%, -300%) scale(0.6) rotate(-3deg); opacity: 0.2; }
-        .p18 { transition-delay: 0.28s; } .active .p18 { transform: translate(-300%, 300%) scale(0.6) rotate(20deg); opacity: 0.2; }
-
-        /* --- CONTEÚDO CENTRAL --- */
-        @keyframes reveal {
-            from { opacity: 0; transform: translateY(20px); filter: blur(5px); }
-            to { opacity: 1; transform: translateY(0); filter: blur(0); }
-        }
         .main-container {
             display: flex; align-items: center; gap: 70px; z-index: 1000;
-            animation: reveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            text-shadow: 0 0 30px rgba(0,0,0,1), 0 0 10px rgba(0,0,0,0.8);
+            position: relative; filter: drop-shadow(0 0 40px rgba(0,0,0,0.8));
         }
-        .name { font-size: 52px; font-weight: 600; letter-spacing: -0.03em; white-space: nowrap; }
-        .dynamic-x { font-size: 28px; font-weight: 300; color: #fff; transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1); }
-        .main-container:hover .dynamic-x { transform: rotate(135deg); }
 
-        .menu-links { display: flex; flex-direction: column; gap: 8px; }
-        .menu-links a { text-decoration: none; color: #555; font-size: 32px; font-weight: 400; transition: color 0.4s ease; position: relative; }
-        .menu-links a::after { content: ''; position: absolute; width: 0; height: 1.5px; bottom: 3px; left: 0; background-color: #fff; transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
-        .menu-links a:hover { color: #fff; }
+        .brand-logo { width: 50px; height: auto; display: block; }
+
+        .dynamic-x { 
+            font-size: 28px; font-weight: 300; color: #fff; 
+            display: block; transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .menu-links { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+        .menu-links a { 
+            text-decoration: none; color: #666; font-size: 32px; font-weight: 400; 
+            transition: color 0.3s ease, transform 0.3s ease; 
+            position: relative; width: fit-content; display: block; 
+        }
+        .menu-links a::after { 
+            content: ''; position: absolute; width: 0; height: 1.5px; 
+            bottom: 6px; left: 0; background-color: #fff; 
+            transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
+        }
+        .menu-links a:hover { color: #fff; transform: translateX(10px); }
         .menu-links a:hover::after { width: 100%; }
 
-        /* LABELS */
-        .side-label { position: fixed; top: 50%; transform: translateY(-50%); font-weight: 300; font-size: 13px; color: #111; text-transform: lowercase; letter-spacing: 0.3em; z-index: 1001; }
+        .side-label { position: fixed; top: 50%; transform: translateY(-50%); font-weight: 300; font-size: 13px; color: #333; text-transform: lowercase; letter-spacing: 0.3em; z-index: 1001; pointer-events: none; }
         .left-edge { left: 40px; } .right-edge { right: 40px; }
-
-        /* FOOTER FIXO (NOVO) */
-        footer {
-            position: fixed;
-            bottom: 40px;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            font-size: 11px;
-            color: #222;
-            letter-spacing: 0.2em;
-            z-index: 1001;
-            pointer-events: none; /* Não atrapalha cliques na página */
-        }
+        footer { position: fixed; bottom: 40px; left: 0; width: 100%; text-align: center; font-size: 11px; color: #333; letter-spacing: 0.2em; z-index: 1001; pointer-events: none; }
 
         @media (max-width: 900px) {
             .preview-container, .side-label { display: none; }
+            .bg-typo { font-size: 35vw; }
             .main-container { flex-direction: column; text-align: center; gap: 20px; }
+            .menu-links { align-items: center; }
+            .brand-logo { width: 180px; } 
             .lang-switcher { top: 30px; }
             footer { bottom: 20px; font-size: 9px; }
+            .loader-counter { font-size: 80px; }
         }
     </style>
 </head>
 <body>
+
+    <div id="loader-wrapper">
+        <div class="loader-slice slice-1"></div>
+        <div class="loader-slice slice-2"></div>
+        <div class="loader-slice slice-3"></div>
+        <div class="loader-slice slice-4"></div>
+        <div class="loader-slice slice-5"></div>
+        
+        <div class="loader-counter-container">
+            <div class="loader-counter" id="counter">0</div>
+        </div>
+    </div>
 
     <div class="lang-switcher">
         <span id="btn-pt" class="lang-btn active" onclick="switchLang('pt')">PT</span>
@@ -152,37 +224,51 @@
         <span id="btn-en" class="lang-btn" onclick="switchLang('en')">EN</span>
     </div>
 
-    <div class="preview-container">
+    <div class="bg-typo-container">
+        <div class="bg-typo" id="liquid-text">RYAN<br>VIEIRA</div>
+    </div>
+
+    <div class="preview-container" id="scene-3d">
         <div class="preview-group" id="preview-projetos">
-            <img src="img/lendas-site-3.png" class="preview-img p1">
-            <img src="img/saoko.jpg" class="preview-img p7">
-            <img src="img/where-she-goes.jpg" class="preview-img p11">
-            <img src="img/red-taylors-version.jpg" class="preview-img p15">
-            <img src="img/capas-de-albuns.jpg" class="preview-img p2">
-            <img src="img/type-season.jpg" class="preview-img p3">
-            <img src="img/grizzlies-concept-kit.jpg" class="preview-img p4">
-            <img src="img/graphic-tees.jpg" class="preview-img p5">
-            <img src="img/lendas-site-1.png" class="preview-img p6">
-            <img src="img/nadie-sabe.jpg" class="preview-img p8">
-            <img src="img/pink-tape.jpg" class="preview-img p9">
-            <img src="img/uma-loucura.jpg" class="preview-img p10">
-            <img src="img/lendas-site-3.png" class="preview-img p12">
-            <img src="img/saoko.jpg" class="preview-img p13">
-            <img src="img/red-taylors-version.jpg" class="preview-img p14">
-            <img src="img/type-season.jpg" class="preview-img p16">
-            <img src="img/grizzlies-concept-kit.jpg" class="preview-img p17">
-            <img src="img/graphic-tees.jpg" class="preview-img p18">
+            <img src="img/redcoming.png" class="preview-img p1">
+            <img src="img/borboleta.jpg" class="preview-img p2">
+            <img src="img/grizzlies8.jpg" class="preview-img p3">
+            <img src="img/nadie-sabie.jpg" class="preview-img p4">
+            <img src="img/saoko.png" class="preview-img p5">
+            <img src="img/grizzlies-concept-kit.jpg" class="preview-img p6">
+            <img src="img/chico.png" class="preview-img p7">
+            <img src="img/lendas.jpg" class="preview-img p8">
+            <img src="img/pinktape.png" class="preview-img p9">
+            <img src="img/type-season.jpg" class="preview-img p10">
+            <img src="img/umaloucura.png" class="preview-img p11">
+            <img src="img/asics-letter.png" class="preview-img p12">
+            <img src="img/lendas-site-1.png" class="preview-img p13">
+            <img src="img/grizzlies2.jpg" class="preview-img p14">
+            <img src="img/saoko.png" class="preview-img p15">
+            <img src="img/pinktape.png" class="preview-img p16">
+            <img src="img/redtaylorposter.jpg" class="preview-img p17">
+            <img src="img/nike-letter.png" class="preview-img p18">
         </div>
 
         <div class="preview-group" id="preview-galeria">
-            <img src="img/galeria-1.jpg" class="preview-img p1">
-            <img src="img/galeria-2.jpg" class="preview-img p3">
-            <img src="img/galeria-3.jpg" class="preview-img p5">
-            <img src="img/galeria-4.jpg" class="preview-img p7">
-            <img src="img/galeria-1.jpg" class="preview-img p9">
-            <img src="img/galeria-2.jpg" class="preview-img p11">
-            <img src="img/galeria-3.jpg" class="preview-img p13">
-            <img src="img/galeria-4.jpg" class="preview-img p15">
+            <img src="img/galeria/afterhours.jpg" class="preview-img p1">
+            <img src="img/galeria/acidade.png" class="preview-img p2">
+            <img src="img/galeria/euphoria.jpg" class="preview-img p3">
+            <img src="img/galeria/ghost.jpg" class="preview-img p4">
+            <img src="img/galeria/judgmentday.jpg" class="preview-img p5">
+            <img src="img/galeria/metro.jpg" class="preview-img p6">
+            <img src="img/galeria/rauw.jpg" class="preview-img p7">
+            <img src="img/galeria/soulmates.jpg" class="preview-img p8">
+            <img src="img/galeria/utopia.jpg" class="preview-img p9">
+            <img src="img/galeria/borboleta.jpg" class="preview-img p10">
+            <img src="img/galeria/exp1.jpg" class="preview-img p11">
+            <img src="img/galeria/exp2.jpg" class="preview-img p12">
+            <img src="img/galeria/exp4.jpg" class="preview-img p13">
+            <img src="img/galeria/fallingdown.jpg" class="preview-img p14">
+            <img src="img/galeria/girlypop.jpg" class="preview-img p15">
+            <img src="img/galeria/plant.jpg" class="preview-img p16">
+            <img src="img/galeria/when.jpg" class="preview-img p17">
+            <img src="img/galeria/tucanotuco.png" class="preview-img p18">
         </div>
     </div>
 
@@ -193,8 +279,12 @@
     </span>
 
     <main class="main-container">
-        <h1 class="name">Ryan Vieira</h1>
-        <div class="separator-box"><span class="dynamic-x">×</span></div>
+        <div class="logo-wrap">
+            <img src="img/rlogo.png" alt="Ryan Vieira Logo" class="brand-logo">
+        </div>
+        
+        <div class="separator-box"><span class="dynamic-x" id="spin-x">×</span></div>
+        
         <nav class="menu-links">
             <a href="projetos.html" data-target="preview-projetos">
                 <span class="lang-pt">projetos</span>
@@ -213,56 +303,111 @@
 
     <footer>
         <p>
-            <span class="lang-pt">© 2025 RYAN VIEIRA — TODOS OS DIREITOS RESERVADOS.</span>
-            <span class="lang-en">© 2025 RYAN VIEIRA — ALL RIGHTS RESERVED.</span>
+            <span class="lang-pt">© 2025 RYAN VIEIRA. TODOS OS DIREITOS RESERVADOS.</span>
+            <span class="lang-en">© 2025 RYAN VIEIRA. ALL RIGHTS RESERVED.</span>
         </p>
     </footer>
 
     <script>
         const links = document.querySelectorAll('.menu-links a');
         const groups = document.querySelectorAll('.preview-group');
+        const liquidText = document.getElementById('liquid-text');
+        const scene = document.getElementById('scene-3d');
+        const spinX = document.getElementById('spin-x');
+        const counterEl = document.getElementById('counter');
 
+        // --- LOADER LOGIC ---
+        let count = 0;
+        const interval = setInterval(() => {
+            count++;
+            counterEl.innerText = count; // Removi o % para ficar mais minimalista/editorial
+            
+            if (count === 100) {
+                clearInterval(interval);
+                setTimeout(() => {
+                     document.body.classList.add('loaded');
+                }, 200); 
+            }
+        }, 15);
+
+        // MOUSE PARALLAX
+        document.addEventListener('mousemove', (e) => {
+            if (!document.body.classList.contains('loaded')) return;
+
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            const moveX = (window.innerWidth / 2 - x);
+            const moveY = (window.innerHeight / 2 - y);
+
+            liquidText.style.transform = `translate(${moveX/25}px, ${moveY/25}px) skew(${moveX/40}deg, ${moveY/40}deg)`;
+            scene.style.transform = `rotateX(${moveY/45}deg) rotateY(${moveX/45}deg)`;
+        });
+
+        // FUNÇÃO DE RANDOMIZAÇÃO
+        function randomizeImages(group) {
+            const images = group.querySelectorAll('.preview-img');
+            
+            images.forEach((img, index) => {
+                const angle = Math.random() * Math.PI * 2;
+                const distance = (Math.random() * 70 + 25); 
+                
+                const tx = Math.cos(angle) * distance * 4; 
+                const ty = Math.sin(angle) * distance * 3; 
+
+                const r = (Math.random() - 0.5) * 30;
+                const s = 0.6 + Math.random() * 0.7;
+                const d = Math.random() * 0.2;
+
+                img.style.setProperty('--tx', `${tx}%`);
+                img.style.setProperty('--ty', `${ty}%`);
+                img.style.setProperty('--r', `${r}deg`);
+                img.style.setProperty('--s', `${s}`);
+                img.style.transitionDelay = `${d}s`;
+            });
+        }
+
+        // INTERAÇÃO
         links.forEach(link => {
             link.addEventListener('mouseenter', () => {
                 const targetId = link.getAttribute('data-target');
                 const targetGroup = document.getElementById(targetId);
-                if (targetGroup) targetGroup.classList.add('active');
+                
+                if (targetGroup) {
+                    randomizeImages(targetGroup);
+                    setTimeout(() => {
+                        targetGroup.classList.add('active');
+                    }, 10);
+                }
+                
+                spinX.style.color = '#fff';
+                spinX.style.transform = 'scale(1.1)';
             });
+            
             link.addEventListener('mouseleave', () => {
                 groups.forEach(group => group.classList.remove('active'));
+                spinX.style.color = '#fff';
+                spinX.style.transform = 'scale(1)';
             });
         });
 
         const bodyEl = document.body;
-        const btnPt = document.getElementById('btn-pt');
-        const btnEn = document.getElementById('btn-en');
-
         function switchLang(lang) {
             if (lang === 'en') {
                 bodyEl.classList.add('en-active');
-                btnEn.classList.add('active');
-                btnPt.classList.remove('active');
+                document.getElementById('btn-en').classList.add('active');
+                document.getElementById('btn-pt').classList.remove('active');
             } else {
                 bodyEl.classList.remove('en-active');
-                btnPt.classList.add('active');
-                btnEn.classList.remove('active');
+                document.getElementById('btn-pt').classList.add('active');
+                document.getElementById('btn-en').classList.remove('active');
             }
             localStorage.setItem('ryanLang', lang);
         }
 
         async function initLanguage() {
             const savedLang = localStorage.getItem('ryanLang');
-            if (savedLang) {
-                switchLang(savedLang);
-            } else {
-                try {
-                    const res = await fetch('https://ipapi.co/json/');
-                    const data = await res.json();
-                    if (data.country_code !== 'BR') switchLang('en');
-                } catch (e) {
-                    if (!navigator.language.includes('pt')) switchLang('en');
-                }
-            }
+            if (savedLang) switchLang(savedLang);
         }
         initLanguage();
     </script>

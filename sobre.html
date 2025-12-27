@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sobre — Ryan Vieira</title>
     
+    <link rel="icon" type="image/x-icon" href="img/favicon_r.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -92,20 +93,33 @@
 
         header { margin-bottom: 120px; }
         h1 { font-size: 52px; font-weight: 600; letter-spacing: -0.03em; margin-bottom: 60px; }
-        .header-wrapper { display: flex; gap: 80px; align-items: flex-start; }
+        .header-wrapper { display: flex; gap: 80px; align-items: flex-start; perspective: 1000px; }
 
-        /* FOTO COM MOVIMENTO */
+        /* --- FOTO COM MOVIMENTO INTERATIVO --- */
         .photo-frame {
-            flex: 0 0 350px; background-color: #111; overflow: hidden; align-self: flex-start;
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            flex: 0 0 350px; 
+            background-color: #111; 
+            overflow: hidden; 
+            align-self: flex-start;
+            transform-style: preserve-3d;
+            transition: transform 0.15s ease-out, box-shadow 0.3s ease;
+            box-shadow: 0 0 0 rgba(255,255,255,0);
+            cursor: pointer;
         }
+        
         .profile-img {
-            width: 100%; height: auto; display: block;
-            filter: grayscale(100%) contrast(1.1); transform: scale(1.05);
-            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+            width: 100%; 
+            height: auto; 
+            display: block;
+            filter: contrast(1.1); 
+            transform: scale(1.1);
+            transition: filter 0.5s ease, transform 0.5s ease;
+            pointer-events: none; 
         }
-        .photo-frame:hover { transform: translateY(-12px) rotate(-1.5deg); }
-        .photo-frame:hover .profile-img { filter: grayscale(0%) contrast(1); transform: scale(1.2) translateX(10px); }
+
+        .photo-frame:hover {
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
 
         .bio-container { flex: 1; padding-top: 10px; }
         .bio-text { font-size: 21px; font-weight: 300; color: #ccc; margin-bottom: 30px; }
@@ -124,43 +138,47 @@
         .client-tag { display: inline-block; padding: 8px 18px; border: 1px solid #222; color: #eee; font-size: 16px; font-weight: 400; transition: 0.4s ease; cursor: default; }
         .client-tag:hover { background-color: #fff; color: #000; border-color: #fff; transform: translateY(-3px); }
 
-        /* --- SEÇÃO DE CONTATO (CTA) --- */
-        .cta-section {
-            margin-top: 150px;
-            padding-top: 100px;
+        /* --- SEÇÃO CURRÍCULO (APENAS EM PT) --- */
+        .cv-section {
+            margin-top: 80px;
+            padding-top: 60px;
             border-top: 1px solid #1a1a1a;
-            text-align: left;
         }
-        .cta-title {
-            font-size: 42px;
-            font-weight: 600;
-            letter-spacing: -0.03em;
-            line-height: 1.1;
-            margin-bottom: 40px;
-        }
-        .cta-link {
-            font-size: 24px;
-            font-weight: 300;
-            color: #888;
+        .cv-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px 40px;
+            border: 1px solid #fff;
+            color: #fff;
             text-decoration: none;
-            transition: color 0.4s ease;
-            position: relative;
-            display: inline-block;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .cta-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 1px;
-            bottom: -5px;
-            left: 0;
+        .cv-button:hover {
             background-color: #fff;
-            transition: width 0.4s ease;
+            color: #000;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255,255,255,0.1);
         }
+        .cv-button .icon {
+            font-size: 18px;
+            transition: transform 0.4s ease;
+        }
+        .cv-button:hover .icon {
+            transform: translateY(3px);
+        }
+
+        .cta-section { margin-top: 100px; padding-top: 100px; border-top: 1px solid #1a1a1a; text-align: left; }
+        .cta-title { font-size: 42px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 40px; }
+        .cta-link { font-size: 24px; font-weight: 300; color: #888; text-decoration: none; transition: color 0.4s ease; position: relative; display: inline-block; }
+        .cta-link::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -5px; left: 0; background-color: #fff; transition: width 0.4s ease; }
         .cta-link:hover { color: #fff; }
         .cta-link:hover::after { width: 100%; }
 
-        /* RESPONSIVIDADE */
         @media (max-width: 900px) {
             .top-nav { grid-template-columns: 1fr 1fr; padding: 20px 30px; top: 20px; gap: 10px; }
             .lang-switcher { grid-row: 2; grid-column: 1 / span 2; margin-top: 15px; }
@@ -169,39 +187,28 @@
             .info-grid { grid-template-columns: 1fr; gap: 60px; }
             .container { padding: 40px 30px; padding-top: 100px; }
             .cta-title { font-size: 32px; }
+            .cv-button { width: 100%; justify-content: center; }
         }
     </style>
 </head>
 <body>
 
     <nav class="top-nav fade-in">
-        <a href="index.html" class="nav-link">
-            <span class="lang-pt">← voltar</span>
-            <span class="lang-en">← back</span>
-        </a>
-
+        <a href="index.html" class="nav-link"><span class="lang-pt">← voltar</span><span class="lang-en">← back</span></a>
         <div class="lang-switcher">
             <span id="btn-pt" class="lang-btn active" onclick="switchLang('pt')">PT</span>
             <span style="color: #222;">|</span>
             <span id="btn-en" class="lang-btn" onclick="switchLang('en')">EN</span>
         </div>
-
-        <span class="page-id">ryan vieira — 
-            <span class="lang-pt">sobre</span>
-            <span class="lang-en">about</span>
-        </span>
+        <span class="page-id">ryan vieira — <span class="lang-pt">sobre</span><span class="lang-en">about</span></span>
     </nav>
 
     <div class="container fade-in">
         <header>
-            <h1>
-                <span class="lang-pt">Sobre</span>
-                <span class="lang-en">About</span>
-            </h1>
-            
+            <h1><span class="lang-pt">Sobre</span><span class="lang-en">About</span></h1>
             <div class="header-wrapper">
-                <div class="photo-frame">
-                    <img src="img/fotosobre.png" alt="Ryan Vieira" class="profile-img">
+                <div class="photo-frame" id="tilt-frame">
+                    <img src="img/fotosobre.png" alt="Ryan Vieira" class="profile-img" id="myPhoto">
                 </div>
 
                 <div class="bio-container">
@@ -272,6 +279,14 @@
             </div>
         </div>
 
+        <section class="cv-section fade-in lang-pt">
+            <h2>Currículo</h2>
+            <a href="pdf/ryan-vieira-cv.pdf" download class="cv-button">
+                Baixar CV completo
+                <span class="icon">↓</span>
+            </a>
+        </section>
+
         <section class="cta-section fade-in">
             <h2 class="cta-title">
                 <span class="lang-pt">Trabalhando em algo novo? <br> Vamos conversar.</span>
@@ -285,6 +300,7 @@
     </div>
 
     <script>
+        // LÓGICA DE IDIOMA
         const bodyEl = document.body;
         const btnPt = document.getElementById('btn-pt');
         const btnEn = document.getElementById('btn-en');
@@ -302,21 +318,40 @@
             localStorage.setItem('ryanLang', lang);
         }
 
-        async function initLanguage() {
-            const savedLang = localStorage.getItem('ryanLang');
-            if (savedLang) {
-                switchLang(savedLang);
+        // --- LÓGICA DE TROCA DE FOTO ---
+        const photo = document.getElementById('myPhoto');
+        const photoFrame = document.getElementById('tilt-frame');
+        
+        const foto1 = "img/fotosobre.png";
+        const foto2 = "img/iconesobre.png";
+
+        photoFrame.addEventListener('click', () => {
+            if (photo.src.includes(foto1)) {
+                photo.src = foto2;
             } else {
-                try {
-                    const res = await fetch('https://ipapi.co/json/');
-                    const data = await res.json();
-                    if (data.country_code !== 'BR') switchLang('en');
-                } catch (e) {
-                    if (!navigator.language.includes('pt')) switchLang('en');
-                }
+                photo.src = foto1;
             }
-        }
-        initLanguage();
+        });
+
+        // --- LÓGICA DO EFEITO TILT ---
+        const height = photoFrame.clientHeight;
+        const width = photoFrame.clientWidth;
+
+        photoFrame.addEventListener('mousemove', (e) => {
+            const xVal = e.layerX;
+            const yVal = e.layerY;
+            const yRotation = 15 * ((xVal - width / 2) / width);
+            const xRotation = -15 * ((yVal - height / 2) / height);
+            const string = 'perspective(1000px) scale(1.05) rotateX(' + xRotation + 'deg) rotateY(' + yRotation + 'deg)';
+            photoFrame.style.transform = string;
+        });
+
+        photoFrame.addEventListener('mouseout', () => {
+            photoFrame.style.transform = 'perspective(1000px) scale(1) rotateX(0) rotateY(0)';
+        });
+
+        const savedLang = localStorage.getItem('ryanLang');
+        if (savedLang) switchLang(savedLang);
     </script>
 </body>
 </html>

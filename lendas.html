@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ryan Vieira — Lendas</title>
-    
+    <link rel="icon" type="image/x-icon" href="img/favicon_r.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -20,6 +20,18 @@
             line-height: 1.6; 
             -webkit-font-smoothing: antialiased; 
             overflow-x: hidden; 
+        }
+
+        /* --- BARRA DE PROGRESSO VERTICAL (ESQUERDA) --- */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 3px; /* Espessura da barra vertical */
+            height: 0%; /* Começa com altura 0 */
+            background-color: #fff; 
+            z-index: 9999; 
+            transition: height 0.1s linear; /* Anima a altura */
         }
 
         /* --- LÓGICA MULTILINGUE --- */
@@ -207,6 +219,8 @@
 </head>
 <body id="top">
 
+    <div id="scroll-progress"></div>
+
     <nav class="top-nav fade-in">
         <a href="projetos.html" class="nav-link">
             <span class="lang-pt">← voltar</span>
@@ -256,7 +270,7 @@
                 <img src="img/lendas-site-2.png" alt="Capa">
             </section>
 
-            <img src="img/lendas-site-3.png" alt="Livro Aberto" class="full-width fade-in">
+            <img src="img/lendas-site-7.png" alt="Livro Aberto" class="full-width fade-in">
 
             <section class="concept-section fade-in">
                 <h2>
@@ -269,8 +283,9 @@
                 </p>
             </section>
 
-            <img src="img/lendas-site-6.png" alt="Mockup" class="full-width fade-in">
-            <img src="img/lendas-site-7.png" alt="Detalhe Final" class="full-width fade-in">
+            <img src="img/lendasabertura.png" alt="Mockup" class="full-width fade-in">
+            <img src="img/lendasdentro.png" alt="Detalhe Final" class="full-width fade-in">
+            <img src="img/lendasquartacapa.png" alt="Detalhe Final" class="full-width fade-in">
 
             <section class="credits fade-in">
                 <h2>
@@ -321,9 +336,9 @@
                     <span class="lang-pt">Próximo Projeto</span>
                     <span class="lang-en">Next Project</span>
                 </span>
-                <a href="capas-de-albuns.html" class="next-project-link">
-                    <span class="lang-pt">Capas de Álbuns Vol.1 →</span>
-                    <span class="lang-en">Album Covers Vol.1 →</span>
+                <a href="graphictees.html" class="next-project-link">
+                    <span class="lang-pt">Graphic Tees →</span>
+                    <span class="lang-en">Graphic Tees →</span>
                 </a>
             </section>
         </div>
@@ -335,6 +350,7 @@
         const bodyEl = document.body;
         const btnPt = document.getElementById('btn-pt');
         const btnEn = document.getElementById('btn-en');
+        const scrollProgress = document.getElementById('scroll-progress');
 
         function switchLang(lang) {
             if (lang === 'en') {
@@ -374,8 +390,16 @@
 
             window.addEventListener('scroll', () => {
                 const scroll = window.scrollY;
+
+                // LÓGICA DO PROGRESS BAR VERTICAL (HEIGHT)
+                const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrollPercentage = (scrollTop / scrollHeight) * 100;
+                scrollProgress.style.height = scrollPercentage + '%';
+
                 if (scroll > 400) btnBackToTop.classList.add('visible');
                 else btnBackToTop.classList.remove('visible');
+                
                 if (scroll <= headerHeight) {
                     const scaleFactor = 1 + (scroll / 2500);
                     heroImage.style.transform = `scale(${Math.min(scaleFactor, 1.2)})`;

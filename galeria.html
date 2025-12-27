@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ryan Vieira — Galeria</title>
     
+    <link rel="icon" type="image/x-icon" href="img/favicon_r.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -27,9 +28,8 @@
         .lang-en { display: none; }
         body.en-active .lang-pt { display: none; }
         body.en-active .lang-en { display: inline; }
-        body.en-active div.lang-en { display: block; }
 
-        /* --- NAVEGAÇÃO SUPERIOR (IGUAL ÀS OUTRAS PÁGINAS) --- */
+        /* --- NAVEGAÇÃO SUPERIOR --- */
         header {
             padding: 0 50px;
             height: 100px;
@@ -55,7 +55,6 @@
         }
         .back-link:hover { color: #fff; }
 
-        /* BOTÃO SWITCHER CENTRAL */
         .lang-switcher {
             display: flex;
             gap: 10px;
@@ -66,23 +65,28 @@
         }
         .lang-btn { cursor: pointer; color: #333; transition: 0.3s; }
         .lang-btn.active { color: #fff; font-weight: 600; }
-        .lang-btn:hover { color: #888; }
 
-        /* IDENTIFICAÇÃO DA PÁGINA (Padrão Ryan Vieira) */
         .page-id {
             color: #444;
             font-size: 13px;
-            text-transform: lowercase; /* Força minúsculas */
+            text-transform: lowercase;
             letter-spacing: 0.2em;
-            font-weight: 300; /* Peso fino igual às outras */
+            font-weight: 300;
             justify-self: end;
         }
 
-        /* --- CONTEÚDO --- */
-        .archive-intro {
-            padding: 180px 3rem 3rem 3rem;
-            max-width: 900px;
+        /* --- INTRO E FILTROS --- */
+        .intro-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 180px 3rem 4rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 40px;
         }
+
+        .archive-intro { max-width: 700px; }
         .archive-intro h1 {
             font-size: clamp(2.5rem, 8vw, 4.5rem);
             font-weight: 700;
@@ -90,19 +94,43 @@
             line-height: 1;
             letter-spacing: -2px;
         }
+
         .archive-intro p {
             color: #666;
             font-size: 1.1rem;
             margin-top: 1.5rem;
-            max-width: 500px;
             font-weight: 300;
         }
 
-        /* Masonry Layout */
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+
+        .filter-btn {
+            background: none;
+            border: 1px solid #1a1a1a;
+            color: #444;
+            padding: 8px 18px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .filter-btn:hover { color: #888; border-color: #333; }
+        .filter-btn.active { color: #fff; border-color: #fff; background: rgba(255,255,255,0.02); }
+
+        /* --- GALERIA MASONRY --- */
         .masonry-container {
-            padding: 0 3rem 8rem 3rem;
+            padding: 0 3rem 4rem 3rem;
             column-count: 3;
             column-gap: 1.5rem;
+            min-height: 100vh;
         }
 
         .art-item {
@@ -115,20 +143,63 @@
             cursor: zoom-in;
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
+            transition: opacity 0.6s ease, transform 0.6s ease;
         }
 
+        .art-item.hidden { display: none; }
         .art-item.is-visible { opacity: 1; transform: translateY(0); }
 
         .art-item img {
             width: 100%;
             height: auto;
             display: block;
-            transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1), filter 0.5s ease;
-            filter: grayscale(0.3);
+            transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
         }
 
-        .art-item:hover img { transform: scale(1.05); filter: grayscale(0); }
+        .art-item:hover img { transform: scale(1.05); }
+
+        /* --- NAVEGAÇÃO DE RODAPÉ (PROJETOS / SOBRE) --- */
+        .footer-navigation-container {
+            padding: 60px 3rem 100px 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between; /* Separa os links */
+            border-top: 1px solid #1a1a1a;
+        }
+
+        /* Estilo base para os links do rodapé */
+        .footer-nav-link {
+            text-decoration: none;
+            color: #fff;
+            font-size: clamp(24px, 2.5vw, 32px); 
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.4s ease;
+            white-space: nowrap;
+        }
+
+        .footer-nav-link .arrow {
+            font-weight: 300;
+            transition: transform 0.4s ease;
+            font-size: 0.9em;
+        }
+
+        .footer-nav-link:hover { color: #999; }
+        .footer-nav-link:hover .arrow { color: #fff; }
+
+        /* Animação específica para a direita (Sobre) */
+        .next-page-btn:hover .arrow {
+            transform: translateX(10px);
+        }
+
+        /* Animação específica para a esquerda (Projetos) */
+        .prev-page-btn:hover .arrow {
+            transform: translateX(-10px);
+        }
 
         /* LIGHTBOX */
         #lightbox {
@@ -136,223 +207,276 @@
             top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(5, 5, 5, 0.98);
             backdrop-filter: blur(15px);
-            display: none; flex-direction: column;
+            display: none; 
             justify-content: center; align-items: center;
             z-index: 2000; opacity: 0; transition: opacity 0.3s ease;
         }
-
         #lightbox.active { display: flex; opacity: 1; }
-
-        #lightbox img {
-            max-width: 85%; max-height: 75vh;
-            object-fit: contain;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        
+        #lightbox img { 
+            max-width: 85%; 
+            max-height: 80vh; 
+            object-fit: contain; 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
         }
 
         .lightbox-caption {
-            margin-top: 2rem;
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
             color: #fff;
-            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
             font-weight: 400;
-            letter-spacing: 2px;
-            text-transform: uppercase;
             text-align: center;
+            letter-spacing: 0.05em;
+            background-color: rgba(20, 20, 20, 0.6);
+            padding: 8px 16px;
+            border-radius: 20px;
+            pointer-events: none; 
+            z-index: 2100;
         }
 
-        .close-lightbox {
-            position: absolute; top: 2rem; right: 2rem;
-            color: #fff; font-size: 2rem; cursor: pointer;
-            z-index: 2005;
+        .close-lightbox { 
+            position: absolute; top: 30px; right: 40px; 
+            color: #fff; font-size: 35px; cursor: pointer; 
+            opacity: 0.5; transition: 0.3s;
+            z-index: 2200;
         }
+        .close-lightbox:hover { opacity: 1; }
 
-        .nav-btn {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(255,255,255,0.05); color: #fff; border: none;
-            width: 60px; height: 60px; border-radius: 50%;
-            font-size: 1.2rem; cursor: pointer; z-index: 2005;
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 40px;
+            cursor: pointer;
+            padding: 20px;
+            opacity: 0.3;
             transition: 0.3s;
+            user-select: none;
+            z-index: 2100;
         }
-        .nav-btn:hover { background: rgba(255,255,255,0.15); }
-        .nav-btn.prev { left: 2rem; }
-        .nav-btn.next { right: 2rem; }
+        .nav-arrow:hover { opacity: 1; }
+        .prev-arrow { left: 30px; }
+        .next-arrow { right: 30px; }
 
-        footer {
-            text-align: center; padding: 5rem;
-            border-top: 1px solid #111; color: #333;
-            font-size: 0.8rem; letter-spacing: 1px;
-        }
-
-        @media (max-width: 1100px) { .masonry-container { column-count: 2; } }
         @media (max-width: 900px) {
             header { grid-template-columns: 1fr 1fr; padding: 20px 30px; height: auto; gap: 10px; }
             .lang-switcher { grid-row: 2; grid-column: 1 / span 2; margin: 10px 0; }
-            .masonry-container { column-count: 1; padding: 0 1.5rem 5rem 1.5rem; }
-            .archive-intro { padding-top: 140px; }
-            .nav-btn { display: none; }
+            .masonry-container { column-count: 1; padding: 0 1.5rem 4rem 1.5rem; }
+            .intro-wrapper { padding: 140px 1.5rem 2rem 1.5rem; flex-direction: column; align-items: flex-start; }
+            .nav-arrow { display: none; } 
+            .lightbox-caption { bottom: 20px; font-size: 12px; width: 90%; }
+            
+            /* Ajuste mobile do rodapé */
+            .footer-navigation-container { 
+                flex-direction: column; 
+                gap: 40px; 
+                padding: 40px 1.5rem 80px 1.5rem; 
+            }
+            .footer-nav-link { font-size: 24px; }
+            /* Mantém o alinhamento mesmo empilhado */
+            .prev-page-btn { align-self: flex-start; }
+            .next-page-btn { align-self: flex-end; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <a href="index.html" class="back-link">
-            <span class="lang-pt">← voltar</span>
-            <span class="lang-en">← back</span>
-        </a>
-
+        <a href="index.html" class="back-link"><span class="lang-pt">← voltar</span><span class="lang-en">← back</span></a>
         <div class="lang-switcher">
             <span id="btn-pt" class="lang-btn active" onclick="switchLang('pt')">PT</span>
             <span style="color: #111;">|</span>
             <span id="btn-en" class="lang-btn" onclick="switchLang('en')">EN</span>
         </div>
-
-        <div class="page-id">ryan vieira — 
-            <span class="lang-pt">galeria</span>
-            <span class="lang-en">gallery</span>
-        </div>
+        <div class="page-id">ryan vieira — <span class="lang-pt">galeria</span><span class="lang-en">gallery</span></div>
     </header>
 
     <main>
-        <section class="archive-intro">
-            <h1>
-                <span class="lang-pt">Galeria</span>
-                <span class="lang-en">Gallery</span>
-            </h1>
-            <p>
-                <span class="lang-pt">Aqui, apresento uma coleção de trabalhos pessoais em que busco explorar a interseção entre as artes visuais e o design gráfico.</span>
-                <span class="lang-en">Here, I present a collection of personal works where I explore the intersection between visual arts and graphic design.</span>
-            </p>
+        <div class="intro-wrapper">
+            <section class="archive-intro">
+                <h1><span class="lang-pt">Galeria</span><span class="lang-en">Gallery</span></h1>
+                <p>
+                    <span class="lang-pt">Coleção de trabalhos pessoais explorando artes visuais e design.</span>
+                    <span class="lang-en">Collection of personal works exploring visual arts and design.</span>
+                </p>
+            </section>
+
+            <nav class="filter-bar">
+                <button class="filter-btn active" data-filter="all"><span class="lang-pt">Tudo</span><span class="lang-en">All</span></button>
+                <button class="filter-btn" data-filter="music"><span class="lang-pt">Música</span><span class="lang-en">Music</span></button>
+                <button class="filter-btn" data-filter="exp"><span class="lang-pt">Experimental</span><span class="lang-en">Exp.</span></button>
+                <button class="filter-btn" data-filter="brands"><span class="lang-pt">Marcas</span><span class="lang-en">Brands</span></button>
+            </nav>
+        </div>
+
+        <section class="masonry-container" id="gallery-grid">
+            <div class="art-item" data-category="exp"><img src="img/galeria/acidade.png" alt="A Cidade Tem Olhos"></div>
+            <div class="art-item" data-category="brands"><img src="img/galeria/metro.jpg" alt="Faz Tempo Que Não Ando De Metrô"></div>
+            <div class="art-item" data-category="brands"><img src="img/galeria/nike.jpg" alt="Nike - Out Of This World"></div>
+            <div class="art-item" data-category="brands"><img src="img/galeria/vans.jpg" alt="Vans Old Skool"></div>
+            <div class="art-item" data-category="brands"><img src="img/galeria/nope.jpg" alt="NOPE"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/meios.jpg" alt="Meios"></div>
+            <div class="art-item" data-category="music"><img src="img/galeria/manonamission.jpg" alt="Man on a Mission"></div>
+            <div class="art-item" data-category="music"><img src="img/galeria/mid90s.jpg" alt="Mid90s"></div>
+            <div class="art-item" data-category="brands"><img src="img/galeria/converse.jpg" alt="Converse"></div>
+            <div class="art-item" data-category="music"><img src="img/galeria/afterhours.jpg" alt="After Hours"></div>
+            <div class="art-item" data-category="music"><img src="img/galeria/dawnfm.jpg" alt="Dawn FM"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/euphoria.jpg" alt="Euphoria"></div>
+            <div class="art-item" data-category="music"><img src="img/galeria/rauw.jpg" alt="Rauw - O Pai do Reggaeton Moderno"></div>
+            <div class="art-item" data-category="music"><img src="img/galeria/utopia.jpg" alt="Utopia"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/borboleta.jpg" alt="Ninguém Nasce Borboleta"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/exp1.jpg" alt="Experiment 01"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/exp2.jpg" alt="Experiment 02"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/exp4.jpg" alt="Experiment 04"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/floating.jpg" alt="We Here FOREVER (technically)"></div>
+            <div class="art-item" data-category="music"><img src="img/galeria/ghost.jpg" alt="When Did I Become a Ghost?"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/godwe.jpg" alt="God We Wasted So Many Days"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/ocorpo.jpg" alt="O Corpo"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/saidafoto.jpg" alt="Uma Hora Todo Mundo Sai Da Foto"></div>
+            <div class="art-item" data-category="music"><img src="img/galeria/soulmates.jpg" alt="Soulmates Become Soulless"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/tucanotuco.png" alt="Tucano Tuco - PARLA 2024"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/beforesunrise.jpg" alt="Before Sunrise"></div>
+            <div class="art-item" data-category="music"><img src="img/galeria/fallingdown.jpg" alt="It All Falls Down"></div>
+            <div class="art-item" data-category="music"><img src="img/galeria/girlypop.jpg" alt="Girly Pop - Amaarae"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/judgmentday.jpg" alt="Judgment Day"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/plant.jpg" alt="Plant"></div>
+            <div class="art-item" data-category="exp"><img src="img/galeria/when.jpg" alt="When"></div>
         </section>
 
-        <section class="masonry-container">
-            <div class="art-item">
-                <img src="img/girlypop.png" alt="Girly Pop — Amaarae" data-en="Girly Pop — Amaarae Art">
-            </div>
-            <div class="art-item">
-                 <img src="img/borboleta.png" alt="Metamorfose — Estudo Digital" data-en="Metamorphosis — Digital Study">
-            </div>
-            <div class="art-item">
-                 <img src="img/exp2.png" alt="Type Experiment 02" data-en="Typographic Experiment 02">
-            </div>
-            <div class="art-item">
-                <img src="img/exp4.png" alt="Colagem Gráfica — Série 4" data-en="Graphic Collage — Series 4">
-            </div>
-            <div class="art-item">
-                <img src="img/nope.jpg" alt="Nope — Poster Design" data-en="Nope — Poster Design Concept">
-            </div>
-            <div class="art-item">
-                <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=1000" alt="Abstrato — Textura e Forma" data-en="Abstract — Texture and Form">
-            </div>
-        </section>
+        <div class="footer-navigation-container">
+            <a href="projetos.html" class="footer-nav-link prev-page-btn">
+                <span class="arrow">←</span>
+                <span class="lang-pt">Projetos</span>
+                <span class="lang-en">Projects</span>
+            </a>
+
+            <a href="sobre.html" class="footer-nav-link next-page-btn">
+                <span class="lang-pt">Sobre</span>
+                <span class="lang-en">About</span>
+                <span class="arrow">→</span>
+            </a>
+        </div>
     </main>
 
     <div id="lightbox">
         <span class="close-lightbox">&times;</span>
-        <button class="nav-btn prev">&#10094;</button>
-        <button class="nav-btn next">&#10095;</button>
+        <button class="nav-arrow prev-arrow">&#10094;</button>
+        <button class="nav-arrow next-arrow">&#10095;</button>
         <img src="" alt="Zoom">
         <div class="lightbox-caption"></div>
     </div>
 
-    <footer>
-        <span class="lang-pt">© 2025 RYAN VIEIRA — TODOS OS DIREITOS RESERVADOS.</span>
-        <span class="lang-en">© 2025 RYAN VIEIRA — ALL RIGHTS RESERVED.</span>
-    </footer>
-
     <script>
         const bodyEl = document.body;
-        const btnPt = document.getElementById('btn-pt');
-        const btnEn = document.getElementById('btn-en');
-        let currentIndex = 0;
-        let allImages = [];
+        let visibleImages = [];
+        let currentImgIndex = 0;
 
         function switchLang(lang) {
-            if (lang === 'en') {
-                bodyEl.classList.add('en-active');
-                btnEn.classList.add('active');
-                btnPt.classList.remove('active');
-            } else {
-                bodyEl.classList.remove('en-active');
-                btnPt.classList.add('active');
-                btnEn.classList.remove('active');
-            }
+            bodyEl.classList.toggle('en-active', lang === 'en');
             localStorage.setItem('ryanLang', lang);
-            if (document.getElementById('lightbox').classList.contains('active')) {
-                updateLightboxContent(currentIndex);
-            }
+            document.getElementById('btn-pt').classList.toggle('active', lang === 'pt');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
         }
 
-        async function initLanguage() {
-            const savedLang = localStorage.getItem('ryanLang');
-            if (savedLang) {
-                switchLang(savedLang);
-            } else {
-                try {
-                    const res = await fetch('https://ipapi.co/json/');
-                    const data = await res.json();
-                    if (data.country_code !== 'BR') switchLang('en');
-                } catch (e) {
-                    if (!navigator.language.includes('pt')) switchLang('en');
-                }
-            }
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const artItems = document.querySelectorAll('.art-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filterValue = btn.getAttribute('data-filter');
+
+                artItems.forEach(item => {
+                    item.classList.remove('is-visible');
+                    if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                        item.classList.remove('hidden');
+                        setTimeout(() => item.classList.add('is-visible'), 100);
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+                updateVisibleImages();
+            });
+        });
+
+        // --- LÓGICA DE NAVEGAÇÃO DO LIGHTBOX ---
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = lightbox.querySelector('img');
+        const lightboxCaption = lightbox.querySelector('.lightbox-caption');
+
+        function updateVisibleImages() {
+            visibleImages = Array.from(document.querySelectorAll('.art-item:not(.hidden) img'));
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            initLanguage();
-            const items = document.querySelectorAll('.art-item');
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImg = lightbox.querySelector('img');
-            const lightboxCaption = lightbox.querySelector('.lightbox-caption');
+        function openLightbox(index) {
+            currentImgIndex = index;
+            const currentImage = visibleImages[currentImgIndex];
+            
+            lightboxImg.src = currentImage.src;
+            lightboxCaption.innerText = currentImage.alt;
+            
+            lightbox.classList.add('active');
+            bodyEl.classList.add('no-scroll');
+        }
 
-            items.forEach((item, index) => {
+        function navigate(direction) {
+            currentImgIndex = (currentImgIndex + direction + visibleImages.length) % visibleImages.length;
+            const nextImage = visibleImages[currentImgIndex];
+            
+            lightboxImg.src = nextImage.src;
+            lightboxCaption.innerText = nextImage.alt;
+        }
+
+        artItems.forEach(item => {
+            item.addEventListener('click', () => {
                 const img = item.querySelector('img');
-                allImages.push({
-                    src: img.src,
-                    pt: img.alt,
-                    en: img.getAttribute('data-en') || img.alt
-                });
-                item.setAttribute('data-index', index);
+                const index = visibleImages.indexOf(img);
+                openLightbox(index);
             });
+        });
 
-            const updateLightboxContent = (index) => {
-                const data = allImages[index];
-                const isEn = bodyEl.classList.contains('en-active');
-                lightboxImg.src = data.src;
-                lightboxCaption.textContent = isEn ? data.en : data.pt;
-                currentIndex = index;
-            };
+        document.querySelector('.next-arrow').addEventListener('click', (e) => { e.stopPropagation(); navigate(1); });
+        document.querySelector('.prev-arrow').addEventListener('click', (e) => { e.stopPropagation(); navigate(-1); });
+        document.querySelector('.close-lightbox').addEventListener('click', () => {
+            lightbox.classList.remove('active');
+            bodyEl.classList.remove('no-scroll');
+        });
 
-            items.forEach(item => {
-                item.addEventListener('click', () => {
-                    updateLightboxContent(parseInt(item.getAttribute('data-index')));
-                    lightbox.classList.add('active');
-                    bodyEl.classList.add('no-scroll');
-                });
-            });
-
-            document.querySelector('.nav-btn.next').addEventListener('click', (e) => {
-                e.stopPropagation();
-                currentIndex = (currentIndex + 1) % allImages.length;
-                updateLightboxContent(currentIndex);
-            });
-
-            document.querySelector('.nav-btn.prev').addEventListener('click', (e) => {
-                e.stopPropagation();
-                currentIndex = (currentIndex - 1 + allImages.length) % allImages.length;
-                updateLightboxContent(currentIndex);
-            });
-
-            const close = () => {
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
                 lightbox.classList.remove('active');
                 bodyEl.classList.remove('no-scroll');
-            };
-            document.querySelector('.close-lightbox').addEventListener('click', close);
-            lightbox.addEventListener('click', (e) => { if(e.target === lightbox) close(); });
+            }
+        });
+
+        window.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            
+            if (e.key === 'ArrowRight') navigate(1);
+            if (e.key === 'ArrowLeft') navigate(-1);
+            if (e.key === 'Escape') {
+                lightbox.classList.remove('active');
+                bodyEl.classList.remove('no-scroll');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('ryanLang');
+            if (savedLang) switchLang(savedLang);
+            updateVisibleImages();
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); });
             }, { threshold: 0.1 });
-            items.forEach(item => observer.observe(item));
+            artItems.forEach(item => observer.observe(item));
         });
     </script>
 </body>

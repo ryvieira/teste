@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ryan Vieira — Red (TV)</title>
-    
+    <link rel="icon" type="image/x-icon" href="img/favicon_r.ico"> 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -20,6 +20,18 @@
             line-height: 1.6; 
             -webkit-font-smoothing: antialiased; 
             overflow-x: hidden; 
+        }
+
+        /* --- BARRA DE PROGRESSO VERTICAL (ESQUERDA) --- */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 3px; /* Espessura da barra vertical */
+            height: 0%; /* Começa com altura 0 */
+            background-color: #fff; 
+            z-index: 9999; 
+            transition: height 0.1s linear; /* Anima a altura */
         }
 
         /* --- LÓGICA MULTILINGUE --- */
@@ -189,6 +201,8 @@
 </head>
 <body id="top">
 
+    <div id="scroll-progress"></div>
+
     <nav class="top-nav">
         <a href="projetos.html" class="nav-link">
             <span class="lang-pt">← voltar</span>
@@ -234,6 +248,11 @@
                 <img src="img/albumfrente.png" alt="Capa">
                 <img src="img/albumatras.png" alt="Contracapa">
             </section>
+            
+            <section class="full-width fade-in">
+                <img src="img/albumfrente.png" alt="Detail Full" class="full-width fade-in">
+                 <img src="img/albumatras.png" alt="Detail Full" class="full-width fade-in">
+            </section>
         </div>
 
         <section class="concept-section fade-in">
@@ -245,7 +264,7 @@
         </section>
 
         <div class="project-flow">
-            <img src="img/spotify-mockup.png" alt="Spotify Mockup" class="full-width fade-in">
+            <img src="img/taylormockup.png" alt="Spotify Mockup" class="full-width fade-in">
         </div>
 
         <section class="case-study fade-in">
@@ -292,6 +311,7 @@
         const bodyEl = document.body;
         const btnPt = document.getElementById('btn-pt');
         const btnEn = document.getElementById('btn-en');
+        const scrollProgress = document.getElementById('scroll-progress');
 
         function switchLang(lang) {
             if (lang === 'en') {
@@ -331,8 +351,17 @@
 
             window.addEventListener('scroll', () => {
                 const scroll = window.scrollY;
+                
+                // LÓGICA DO PROGRESS BAR VERTICAL (HEIGHT)
+                const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrollPercentage = (scrollTop / scrollHeight) * 100;
+                scrollProgress.style.height = scrollPercentage + '%';
+
+                // Lógica Back to Top e Hero Parallax
                 if (scroll > 400) btnBackToTop.classList.add('visible');
                 else btnBackToTop.classList.remove('visible');
+                
                 if (scroll <= headerHeight) {
                     const scaleFactor = 1 + (scroll / 2500);
                     heroImage.style.transform = `scale(${Math.min(scaleFactor, 1.2)})`;

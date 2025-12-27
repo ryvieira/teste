@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ryan Vieira — Type Season</title>
-    
+    <link rel="icon" type="image/x-icon" href="img/favicon_r.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -14,6 +14,18 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+
+        /* --- BARRA DE PROGRESSO VERTICAL (ESQUERDA) --- */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 3px; /* Espessura da barra */
+            height: 0%; /* Altura inicial */
+            background-color: #fff; 
+            z-index: 9999; 
+            transition: height 0.1s linear;
+        }
 
         /* --- LÓGICA MULTILINGUE --- */
         .lang-en { display: none; }
@@ -95,7 +107,6 @@
             width: 100%; 
             height: auto; 
             display: block; 
-            /* background: #050505;  <-- REMOVIDO */
             margin-top: 40px; 
         }
 
@@ -125,6 +136,8 @@
     </style>
 </head>
 <body id="top">
+
+    <div id="scroll-progress"></div>
 
     <nav class="top-nav">
         <a href="projetos.html" class="nav-link">
@@ -241,7 +254,7 @@
 
         <section class="next-project-section fade-in">
             <span class="next-label"><span class="lang-pt">Próximo Projeto</span><span class="lang-en">Next Project</span></span><br>
-            <a href="grizzlies-kit.html" class="next-project-link">Grizzlies Concept Kit →</a>
+            <a href="grizzlies.html" class="next-project-link">Grizzlies Concept Kit →</a>
         </section>
     </main>
 
@@ -249,12 +262,19 @@
 
     <script>
         const bodyEl = document.body;
+        const scrollProgress = document.getElementById('scroll-progress'); // Referência
+
         function switchLang(lang) {
-            if (lang === 'en') bodyEl.classList.add('en-active');
-            else bodyEl.classList.remove('en-active');
+            if (lang === 'en') {
+                bodyEl.classList.add('en-active');
+                document.getElementById('btn-pt').classList.remove('active');
+                document.getElementById('btn-en').classList.add('active');
+            } else {
+                bodyEl.classList.remove('en-active');
+                document.getElementById('btn-en').classList.remove('active');
+                document.getElementById('btn-pt').classList.add('active');
+            }
             localStorage.setItem('ryanLang', lang);
-            document.getElementById('btn-pt').classList.toggle('active', lang === 'pt');
-            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
         }
 
         async function initLanguage() {
@@ -282,6 +302,13 @@
 
             window.addEventListener('scroll', () => {
                 const scroll = window.scrollY;
+
+                // --- LÓGICA DA BARRA DE PROGRESSO VERTICAL ---
+                const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrollPercentage = (scrollTop / scrollHeight) * 100;
+                scrollProgress.style.height = scrollPercentage + '%';
+
                 if (scroll > 400) btnBackToTop.classList.add('visible');
                 else btnBackToTop.classList.remove('visible');
                 if (scroll <= headerHeight) {

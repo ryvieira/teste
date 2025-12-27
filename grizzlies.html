@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ryan Vieira — Grizzlies Concept Kit</title>
-    
+    <link rel="icon" type="image/x-icon" href="img/favicon_r.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -20,6 +20,18 @@
             line-height: 1.6; 
             -webkit-font-smoothing: antialiased; 
             overflow-x: hidden; 
+        }
+
+        /* --- BARRA DE PROGRESSO VERTICAL (ESQUERDA) --- */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 3px; /* Espessura da barra */
+            height: 0%; /* Altura inicial */
+            background-color: #fff; 
+            z-index: 9999; 
+            transition: height 0.1s linear;
         }
 
         /* --- LÓGICA MULTILINGUE --- */
@@ -183,6 +195,8 @@
 </head>
 <body id="top">
 
+    <div id="scroll-progress"></div>
+
     <nav class="top-nav">
         <a href="projetos.html" class="nav-link">
             <span class="lang-pt">← voltar</span>
@@ -201,7 +215,7 @@
     <a href="#top" class="back-to-top-fixed" id="btnBackToTop">↑</a>
 
     <header class="hero-visual fade-in">
-        <img src="img/grizzlies-hero.jpg" alt="Memphis Grizzlies Hero" id="heroImage">
+        <img src="img/capagrizzlies.jpg" alt="Memphis Grizzlies Hero" id="heroImage">
     </header>
 
     <main class="container">
@@ -225,8 +239,8 @@
 
         <div class="project-flow">
             <section class="grid-layout two-columns fade-in">
-                <img src="img/grizzlies-mockup-1.jpg" alt="Mockup Uniforme">
-                <img src="img/grizzlies-mockup-2.jpg" alt="Mockup Detalhe">
+                <img src="img/grizzlies1.jpg" alt="Mockup Uniforme">
+                <img src="img/grizzlies2.jpg" alt="Mockup Detalhe">
             </section>
         </div>
 
@@ -246,20 +260,19 @@
         </section>
 
         <div class="project-flow">
-            <img src="img/grizzlies-landscape.jpg" alt="Memphis Landmarks" class="full-width fade-in">
+            <section class="grid-layout three-columns fade-in">
+                <img src="img/grizzlies3.jpg" alt="Graffiti Detail 1">
+                <img src="img/grizzlies4.jpg" alt="Graffiti Detail 2">
+                <img src="img/grizzlies5.jpg" alt="Graffiti Detail 3">
+            </section>
 
             <section class="grid-layout three-columns fade-in">
-                <img src="img/grizzlies-detail-1.jpg" alt="Graffiti Detail 1">
-                <img src="img/grizzlies-detail-2.jpg" alt="Graffiti Detail 2">
-                <img src="img/grizzlies-detail-3.jpg" alt="Graffiti Detail 3">
+                <img src="img/grizzlies6.jpg" alt="Graffiti Detail 4">
+                <img src="img/grizzlies7.jpg" alt="Graffiti Detail 5">
+                <img src="img/grizzlies8.jpg" alt="Graffiti Detail 6">
             </section>
 
-            <img src="img/grizzlies-court.jpg" alt="Basketball Court Concept" class="full-width fade-in">
-
-            <section class="grid-layout two-columns fade-in">
-                <img src="img/grizzlies-apparel-1.jpg" alt="Apparel Design 1">
-                <img src="img/grizzlies-apparel-2.jpg" alt="Apparel Design 2">
-            </section>
+            <img src="img/grizzlies9.jpg" alt="Memphis Grizzlies Concept Display" class="full-width fade-in">
         </div>
 
         <section class="credits fade-in">
@@ -296,18 +309,17 @@
 
     <script>
         const bodyEl = document.body;
-        const btnPt = document.getElementById('btn-pt');
-        const btnEn = document.getElementById('btn-en');
+        const scrollProgress = document.getElementById('scroll-progress'); // Referência
 
         function switchLang(lang) {
             if (lang === 'en') {
                 bodyEl.classList.add('en-active');
-                btnEn.classList.add('active');
-                btnPt.classList.remove('active');
+                document.getElementById('btn-en').classList.add('active');
+                document.getElementById('btn-pt').classList.remove('active');
             } else {
                 bodyEl.classList.remove('en-active');
-                btnPt.classList.add('active');
-                btnEn.classList.remove('active');
+                document.getElementById('btn-pt').classList.add('active');
+                document.getElementById('btn-en').classList.remove('active');
             }
             localStorage.setItem('ryanLang', lang);
         }
@@ -337,8 +349,16 @@
 
             window.addEventListener('scroll', () => {
                 const scroll = window.scrollY;
+
+                // --- LÓGICA DA BARRA DE PROGRESSO VERTICAL ---
+                const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrollPercentage = (scrollTop / scrollHeight) * 100;
+                scrollProgress.style.height = scrollPercentage + '%';
+
                 if (scroll > 400) btnBackToTop.classList.add('visible');
                 else btnBackToTop.classList.remove('visible');
+                
                 if (scroll <= headerHeight) {
                     const scaleFactor = 1 + (scroll / 2500);
                     heroImage.style.transform = `scale(${Math.min(scaleFactor, 1.2)})`;
