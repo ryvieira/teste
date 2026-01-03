@@ -4,55 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ryan Vieira — Type Season</title>
+    
     <link rel="icon" type="image/x-icon" href="img/favicon_r.ico">
+
+    <meta name="description" content="Type Season: Um projeto de direção de arte e tipografia por Ryan Vieira. Revisitando campanhas de moda através do design gráfico autoral e lettering expressivo.">
+    <meta name="keywords" content="Ryan Vieira, Design Gráfico, Direção de Arte, Tipografia, Moda, Type Season, Posters, Typography, Branding">
+    <meta name="author" content="Ryan Vieira">
+    <meta name="theme-color" content="#050505">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://seusite.com/typeseason.html"> <meta property="og:title" content="Ryan Vieira — Type Season">
+    <meta property="og:description" content="Revisitando campanhas de moda sob a ótica do design gráfico autoral. Onde a imagem vira suporte e a tipografia vira protagonista.">
+    <meta property="og:image" content="https://seusite.com/img/type-season.jpg"> <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://seusite.com/typeseason.html">
+    <meta property="twitter:title" content="Ryan Vieira — Type Season">
+    <meta property="twitter:description" content="Revisitando campanhas de moda sob a ótica do design gráfico autoral.">
+    <meta property="twitter:image" content="https://seusite.com/img/type-season.jpg">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         /* Cor da seleção de texto */
-::selection {
-    background-color: #fff;
-    color: #000;
-}
+        ::selection { background-color: #fff; color: #000; }
 
-/* Barra de rolagem customizada (Webkit - Chrome/Safari) */
-::-webkit-scrollbar {
-    width: 8px;
-}
-::-webkit-scrollbar-track {
-    background: #050505;
-}
-::-webkit-scrollbar-thumb {
-    background: #333;
-    border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
+        /* Barra de rolagem customizada */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
 
         /* RESET & BASE */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 
-        /* --- BARRA DE PROGRESSO VERTICAL (ESQUERDA) --- */
+        /* --- BARRA DE PROGRESSO VERTICAL --- */
         #scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 3px; /* Espessura da barra */
-            height: 0%; /* Altura inicial */
-            background-color: #fff; 
-            z-index: 9999; 
-            transition: height 0.1s linear;
+            position: fixed; top: 0; left: 0; width: 3px; height: 0%; 
+            background-color: #fff; z-index: 9999; transition: height 0.1s linear;
         }
 
         /* --- LÓGICA MULTILINGUE --- */
-        .lang-en { display: none; }
-        body.en-active .lang-pt { display: none; }
-        body.en-active .lang-en { display: inline; }
-        body.en-active div.lang-en { display: block; }
+        .lang-en { display: none !important; }
+        body.en-active .lang-pt { display: none !important; }
+        body.en-active .lang-en { display: inline !important; }
+        body.en-active div.lang-en { display: grid !important; } 
 
         /* ANIMAÇÃO DE ENTRADA */
         .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -67,7 +65,7 @@
         .lang-btn.active { color: #fff; font-weight: 600; }
         .project-id { color: rgba(255, 255, 255, 0.4); font-size: 13px; text-transform: lowercase; letter-spacing: 0.2em; font-weight: 300; justify-self: end; }
 
-        /* HERO COM TRATAMENTO */
+        /* HERO */
         .hero-visual { width: 100%; height: 85vh; position: relative; overflow: hidden; background: #000; }
         .hero-visual::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.2); z-index: 2; pointer-events: none; }
         .hero-visual img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1); transition: transform 0.1s linear; filter: brightness(0.6) contrast(1.1); }
@@ -76,73 +74,79 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
 
         /* EDITORIAL BLOCK */
-        .editorial-block { display: flex; justify-content: space-between; gap: 80px; padding: 100px 0; }
-        .editorial-left { flex: 0 0 350px; }
+        .editorial-block { display: flex; justify-content: space-between; gap: 60px; padding: 100px 0; }
+        .editorial-left { flex: 0 0 300px; }
+        
         .project-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; color: #444; margin-bottom: 20px; display: block; }
         .editorial-title { font-size: 48px; font-weight: 600; line-height: 1; letter-spacing: -0.04em; margin-bottom: 30px; }
         .category-tag { display: inline-block; border: 1px solid #333; padding: 8px 16px; font-weight: 300; font-size: 13px; color: #888; text-transform: uppercase; letter-spacing: 0.15em; }
-        .text-main { font-size: 21px; font-weight: 300; color: #ccc; line-height: 1.6; }
-
-        /* --- ESTRUTURA DOS CARTAZES --- */
-        .poster-section { margin-bottom: 180px; }
         
-        /* Grid 2 colunas: Nome e Cartaz */
-        .poster-main-grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1.5fr; 
-            gap: 60px; 
-            align-items: end; 
-            margin-bottom: 40px;
+        .editorial-right { flex: 1; }
+
+        /* --- GRID DE TEXTO (LAYOUT APRIMORADO) --- */
+        .project-text-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 60px;
+            row-gap: 50px;
         }
 
-        .poster-info h3 { 
-            font-size: 13px; 
-            text-transform: uppercase; 
-            letter-spacing: 0.3em; 
-            color: #444; 
-            margin-bottom: 10px; 
-        }
-        .poster-info .brand-name { 
-            font-size: 32px; 
-            font-weight: 500; 
-            letter-spacing: -0.02em; 
-            color: #fff; 
+        .grid-item:first-child {
+            grid-column: 1 / -1; 
+            max-width: 100%; 
         }
 
-        /* Lógica para intercalar (Pares) */
-        .poster-section:nth-child(even) .poster-main-grid {
-            grid-template-columns: 1.5fr 1fr;
+        .grid-item h4 {
+            font-size: 11px; 
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 15px;
         }
-        .poster-section:nth-child(even) .poster-info {
-            order: 2;
-            text-align: right;
+
+        .grid-item p {
+            font-size: 16px;
+            color: #888;
+            line-height: 1.6;
+            font-weight: 400;
+            margin: 0;
         }
-        .poster-section:nth-child(even) .poster-main-grid img {
-            order: 1;
+
+        /* --- DESTAQUE PARA O TEXTO DO CONCEITO --- */
+        .grid-item:first-child p {
+            font-size: 21px; 
+            font-weight: 300; 
+            color: #ccc; 
+            line-height: 1.5;
         }
+
+        /* --- POSTERS --- */
+        .poster-section { margin-bottom: 180px; }
+        .poster-main-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; align-items: end; margin-bottom: 40px; }
+        .poster-info h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.3em; color: #444; margin-bottom: 10px; }
+        .poster-info .brand-name { font-size: 32px; font-weight: 500; letter-spacing: -0.02em; color: #fff; }
+
+        /* Intercalado */
+        .poster-section:nth-child(even) .poster-main-grid { grid-template-columns: 1.5fr 1fr; }
+        .poster-section:nth-child(even) .poster-info { order: 2; text-align: right; }
+        .poster-section:nth-child(even) .poster-main-grid img { order: 1; }
 
         .poster-main-grid img { width: 100%; height: auto; display: block; background: #050505; }
+        
+        .type-detail-img { width: 100%; height: auto; display: block; margin-top: 40px; }
 
-        /* Imagem da letra (Full Width) - SEM FUNDO */
-        .type-detail-img { 
-            width: 100%; 
-            height: auto; 
-            display: block; 
-            margin-top: 40px; 
-        }
-
-        /* CRÉDITOS */
+        /* CRÉDITOS & FOOTER */
         .credits { border-top: 1px solid #222; padding-top: 80px; margin-top: 120px; }
         .credits h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.2em; color: #444; margin-bottom: 50px; }
         .credits-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 50px 40px; margin-bottom: 80px; }
         .credits-list dt { font-size: 12px; text-transform: uppercase; color: #444; margin-bottom: 12px; }
         .credits-list dd { font-size: 18px; font-weight: 300; color: #fff; }
 
-        /* FOOTER */
         .next-project-section { padding: 120px 0; border-top: 1px solid #222; margin-top: 80px; }
         .next-project-link { font-size: clamp(32px, 8vw, 80px); font-weight: 600; color: #fff; text-decoration: none; letter-spacing: -0.04em; transition: all 0.5s ease; }
         .next-project-link:hover { color: #666; transform: translateX(15px); }
-        .back-to-top-fixed { position: fixed; bottom: 50px; left: 50px; text-decoration: none; color: #fff; font-size: 24px; z-index: 1000; opacity: 0; transition: 0.4s; }
+        .back-to-top-fixed { position: fixed; bottom: 50px; left: 50px; text-decoration: none; color: #fff; font-size: 24px; z-index: 1000; opacity: 0; transition: 0.4s ease; }
         .back-to-top-fixed.visible { opacity: 1; }
         footer { padding: 60px 0; text-align: center; font-size: 11px; color: #222; border-top: 1px solid #111; }
 
@@ -150,6 +154,9 @@
             .top-nav { grid-template-columns: 1fr 1fr; padding: 20px 30px; top: 20px; }
             .lang-switcher { grid-row: 2; grid-column: 1 / span 2; margin: 15px 0; }
             .editorial-block { flex-direction: column; gap: 40px; }
+            .project-text-grid { grid-template-columns: 1fr; gap: 40px; } 
+            .grid-item:first-child { grid-column: auto; max-width: 100%; }
+            .grid-item:first-child p { font-size: 18px; } 
             .poster-main-grid, .poster-section:nth-child(even) .poster-main-grid { grid-template-columns: 1fr; gap: 30px; }
             .poster-info, .poster-section:nth-child(even) .poster-info { order: 2; text-align: left; }
             .poster-main-grid img, .poster-section:nth-child(even) .poster-main-grid img { order: 1; }
@@ -190,11 +197,53 @@
                     <span class="lang-en">Art Direction, Typography</span>
                 </div>
             </div>
+            
             <div class="editorial-right">
-                <p class="text-main">
-                    <span class="lang-pt">As campanhas de moda são um dos principais veículos de construção de identidade das grandes marcas. A partir dessa potência, surgiu a ideia de revisitar esses materiais sob a ótica do design gráfico autoral.</span>
-                    <span class="lang-en">Fashion campaigns are a primary vehicle for brand identity. From this potential, the idea emerged to revisit these materials through authorial graphic design.</span>
-                </p>
+                
+                <div class="project-text-grid lang-pt">
+                    <div class="grid-item">
+                        <h4>Conceito</h4>
+                        <p>
+                            Campanhas de moda são potências visuais que definem a identidade de uma marca. Com o <em>Type Season</em>, minha proposta foi revisitar essas narrativas sob uma nova ótica: deslocar o protagonismo da fotografia para a tipografia. A ideia não é apenas legendar a imagem, mas interpretar visualmente a "voz" de cada coleção.
+                        </p>
+                    </div>
+                    
+                    <div class="grid-item">
+                        <h4>Processo</h4>
+                        <p>
+                            Tudo começa pela imersão na atmosfera da coleção — o ritmo, as texturas e a atitude. A partir dessa análise sensível, desenho uma tipografia exclusiva para cada cartaz. É uma tradução subjetiva: não desenho apenas letras, desenho a sensação que a roupa provoca.
+                        </p>
+                    </div>
+
+                    <div class="grid-item">
+                        <h4>Linguagem Visual</h4>
+                        <p>
+                            A composição busca o atrito e o diálogo. Utilizo as fotografias originais como matéria-prima, fazendo com que elas interajam diretamente com o desenho das letras. A imagem deixa de ser apenas suporte e a tipografia ganha corpo, criando uma tensão gráfica entre moda e design experimental.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="project-text-grid lang-en">
+                    <div class="grid-item">
+                        <h4>Concept</h4>
+                        <p>
+                            Fashion campaigns are visual powerhouses that define a brand's identity. With <em>Type Season</em>, my proposal was to revisit these narratives through a new lens: shifting the spotlight from photography to typography. The idea isn't just to caption the image, but to visually interpret the "voice" of each collection.
+                        </p>
+                    </div>
+                    <div class="grid-item">
+                        <h4>Process</h4>
+                        <p>
+                            It starts with immersion into the collection's atmosphere—the rhythm, textures, and attitude. From this sensitive analysis, I design custom typography for each poster. It is a subjective translation: I don't just draw letters; I draw the feeling the garment evokes.
+                        </p>
+                    </div>
+                    <div class="grid-item">
+                        <h4>Visual Language</h4>
+                        <p>
+                            The composition seeks friction and dialogue. I use the original photographs as raw material, making them interact directly with the letterforms. The image stops being just a background, and the typography gains body, creating a graphic tension between fashion and experimental design.
+                        </p>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -283,17 +332,19 @@
 
     <script>
         const bodyEl = document.body;
-        const scrollProgress = document.getElementById('scroll-progress'); // Referência
+        const btnPt = document.getElementById('btn-pt');
+        const btnEn = document.getElementById('btn-en');
+        const scrollProgress = document.getElementById('scroll-progress');
 
         function switchLang(lang) {
             if (lang === 'en') {
                 bodyEl.classList.add('en-active');
-                document.getElementById('btn-pt').classList.remove('active');
-                document.getElementById('btn-en').classList.add('active');
+                btnEn.classList.add('active');
+                btnPt.classList.remove('active');
             } else {
                 bodyEl.classList.remove('en-active');
-                document.getElementById('btn-en').classList.remove('active');
-                document.getElementById('btn-pt').classList.add('active');
+                btnPt.classList.add('active');
+                btnEn.classList.remove('active');
             }
             localStorage.setItem('ryanLang', lang);
         }
@@ -332,6 +383,7 @@
 
                 if (scroll > 400) btnBackToTop.classList.add('visible');
                 else btnBackToTop.classList.remove('visible');
+                
                 if (scroll <= headerHeight) {
                     const scaleFactor = 1 + (scroll / 2500);
                     heroImage.style.transform = `scale(${Math.min(scaleFactor, 1.2)})`;

@@ -10,6 +10,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
 
+    <meta name="description" content="Portfólio de Ryan Vieira, Designer Gráfico e Diretor de Arte focado em tipografia, branding e moda.">
+    <meta name="keywords" content="Ryan Vieira, Design, Art Direction, Typography, Portfolio">
+    <meta name="theme-color" content="#050505">
+    <meta property="og:title" content="Ryan Vieira — Portfolio">
+    <meta property="og:description" content="Designer Gráfico e Diretor de Arte.">
+    <meta property="og:image" content="https://seusite.com/img/cover.jpg">
+
     <style>
         /* === RESET & CORE === */
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,38 +30,35 @@
             display: flex;
             align-items: center; justify-content: center;
             -webkit-font-smoothing: antialiased;
-            perspective: 2500px;
         }
 
         /* --- THE SLICE LOADER --- */
         #loader-wrapper {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 9999;
-            display: flex; /* Cria colunas */
+            display: flex; 
             pointer-events: none;
         }
 
-        /* As 5 colunas pretas */
         .loader-slice {
-            width: 20%; /* 100% / 5 = 20% */
+            width: 20%; 
             height: 100%;
             background-color: #000;
             position: relative;
             transform-origin: top;
-            transition: transform 1s cubic-bezier(0.76, 0, 0.24, 1); /* Curva suave */
+            transition: transform 1s cubic-bezier(0.76, 0, 0.24, 1);
         }
 
-        /* O Contador Gigante */
         .loader-counter-container {
             position: fixed;
             bottom: 20px;
-            right: 40px;
+            right: 20px;
             z-index: 10000;
-            overflow: hidden; /* Para esconder quando sair */
+            overflow: hidden; 
         }
 
         .loader-counter {
-            font-size: clamp(80px, 15vw, 200px);
+            font-size: 80px; 
             font-weight: 300;
             color: #fff;
             line-height: 0.8;
@@ -62,25 +66,20 @@
             transition: transform 0.8s ease;
         }
 
-        /* ANIMAÇÃO DE SAÍDA (QUANDO CARREGADO) */
-        
-        /* 1. O Contador desce */
+        /* ANIMAÇÃO DE SAÍDA */
         body.loaded .loader-counter { transform: translateY(100%); }
-
-        /* 2. As fatias sobem com atraso (Stagger Effect) */
         body.loaded .slice-1 { transform: translateY(-100%); transition-delay: 0.2s; }
         body.loaded .slice-2 { transform: translateY(-100%); transition-delay: 0.3s; }
         body.loaded .slice-3 { transform: translateY(-100%); transition-delay: 0.4s; }
         body.loaded .slice-4 { transform: translateY(-100%); transition-delay: 0.5s; }
         body.loaded .slice-5 { transform: translateY(-100%); transition-delay: 0.6s; }
 
-
         /* --- CONTEÚDO DO SITE (Entrada) --- */
         .main-container, footer, .lang-switcher {
             opacity: 0;
-            transform: scale(1.1); /* Zoom out suave */
+            transform: scale(1.1); 
             transition: all 1.2s cubic-bezier(0.2, 1, 0.3, 1);
-            transition-delay: 0.8s; /* Espera as fatias subirem */
+            transition-delay: 0.8s; 
         }
         
         body.loaded .main-container,
@@ -91,23 +90,22 @@
         }
 
         /* --- TRANSIÇÃO DE SAÍDA (CORTINA) --- */
-        /* MODIFICADO: Agora começa em cima (-100%) e desce para o centro (0) */
         .page-transition-curtain {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             background-color: #000;
-            z-index: 12000; /* Acima de tudo */
-            transform: translateY(-100%); /* Começa escondido no TOPO */
+            z-index: 12000; 
+            transform: translateY(-100%); 
             pointer-events: none;
             transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
         }
         
         .page-transition-curtain.active {
-            transform: translateY(0); /* Desce cobrindo a tela */
+            transform: translateY(0); 
         }
 
-        /* RESTO DO CSS PADRÃO */
+        /* RESTO DO CSS */
         body::after {
             content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Grain_Texture.png');
@@ -119,8 +117,11 @@
             display: flex; align-items: center; justify-content: center;
             pointer-events: none; z-index: 0;
         }
+        
+        /* Tipografia de fundo (Mobile Base - EXPANDIDA) */
         .bg-typo {
-            font-size: 42vw; font-weight: 900; line-height: 0.8;
+            font-size: 125vw; 
+            font-weight: 900; line-height: 0.8;
             text-align: center; text-transform: uppercase;
             color: transparent;
             -webkit-text-stroke: 1px rgba(255,255,255,0.08);
@@ -132,92 +133,160 @@
         body.en-active .lang-pt { display: none; }
         body.en-active .lang-en { display: inline-block; }
 
-        .lang-switcher {
-            position: fixed; top: 50px; left: 50%; transform: translateX(-50%);
-            display: flex; gap: 10px; font-size: 11px; letter-spacing: 0.1em; z-index: 2000;
-            pointer-events: auto; user-select: none;
+        /* --- LANG SWITCHER (CENTRALIZADO EM TUDO) --- */
+        .lang-switcher { 
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%); /* Centraliza exato no eixo X */
+            top: 30px; /* Distância do topo no mobile */
+            
+            display: flex; 
+            gap: 10px; 
+            font-size: 11px; 
+            letter-spacing: 0.1em; 
+            user-select: none; 
+            z-index: 2000;
+            pointer-events: auto;
         }
         .lang-btn { cursor: pointer; color: #444; transition: 0.3s; }
         .lang-btn.active { color: #fff; font-weight: 600; }
 
-        .preview-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 1; 
-            transform-style: preserve-3d; transition: transform 0.1s linear;
-        }
-        .preview-group { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 0.4s ease; transform-style: preserve-3d; }
-        .preview-group.active { opacity: 1; }
 
-        .preview-img {
-            position: absolute; width: clamp(150px, 12vw, 250px); height: auto;
-            object-fit: cover; top: 50%; left: 50%;
-            border-radius: 0; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            opacity: 0; filter: blur(20px) grayscale(1) brightness(0.5);
-            transform: translate(-50%, -50%) scale(0.3) translateZ(-300px) rotate(0deg);
-            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-            will-change: transform, opacity, filter;
-        }
-        .preview-group.active .preview-img { opacity: 0.7; filter: blur(0px) grayscale(0) brightness(1); }
-
-        /* Posições */
-        .p1 { transition-delay: 0.02s; } .active .p1 { transform: translate(-380%, -240%) scale(1.3) rotate(-8deg) translateZ(0); }
-        .p2 { transition-delay: 0.08s; } .active .p2 { transform: translate(-230%, -190%) scale(0.8) rotate(5deg) translateZ(0); }
-        .p3 { transition-delay: 0.04s; } .active .p3 { transform: translate(-50%, -330%) scale(1.0) rotate(-2deg) translateZ(0); }
-        .p4 { transition-delay: 0.12s; } .active .p4 { transform: translate(50%, -230%) scale(0.9) rotate(10deg) translateZ(0); }
-        .p5 { transition-delay: 0.06s; } .active .p5 { transform: translate(190%, -260%) scale(1.2) rotate(6deg) translateZ(0); }
-        .p6 { transition-delay: 0.15s; } .active .p6 { transform: translate(330%, -200%) scale(0.9) rotate(-4deg) translateZ(0); }
-        .p7 { transition-delay: 0.03s; } .active .p7 { transform: translate(260%, -50%) scale(1.5) rotate(12deg) translateZ(0); z-index: 5; }
-        .p8 { transition-delay: 0.10s; } .active .p8 { transform: translate(220%, 70%) scale(0.7) rotate(-7deg) translateZ(0); }
-        .p9 { transition-delay: 0.05s; } .active .p9 { transform: translate(310%, 190%) scale(1.1) rotate(4deg) translateZ(0); }
-        .p10 { transition-delay: 0.18s; } .active .p10 { transform: translate(150%, 150%) scale(0.8) rotate(-15deg) translateZ(0); }
-        .p11 { transition-delay: 0.04s; } .active .p11 { transform: translate(-50%, 190%) scale(1.2) rotate(3deg) translateZ(0); }
-        .p12 { transition-delay: 0.11s; } .active .p12 { transform: translate(70%, 260%) scale(0.7) rotate(-6deg) translateZ(0); }
-        .p13 { transition-delay: 0.07s; } .active .p13 { transform: translate(-290%, 230%) scale(1.1) rotate(-9deg) translateZ(0); }
-        .p14 { transition-delay: 0.19s; } .active .p14 { transform: translate(-190%, 140%) scale(0.8) rotate(7deg) translateZ(0); }
-        .p15 { transition-delay: 0.05s; } .active .p15 { transform: translate(-360%, -30%) scale(1.5) rotate(-14deg) translateZ(0); z-index: 5; }
-        .p16 { transition-delay: 0.14s; } .active .p16 { transform: translate(-240%, -90%) scale(0.7) rotate(11deg) translateZ(0); }
-        .p17 { transition-delay: 0.21s; } .active .p17 { transform: translate(130%, -310%) scale(0.6) rotate(-3deg) translateZ(0); }
-        .p18 { transition-delay: 0.24s; } .active .p18 { transform: translate(-310%, 310%) scale(0.6) rotate(20deg) translateZ(0); }
-
+        /* --- ESTILOS GERAIS (MOBILE FIRST - VERTICAL) --- */
+        
+        /* Layout Principal */
         .main-container {
-            display: flex; align-items: center; gap: 70px; z-index: 1000;
-            position: relative; filter: drop-shadow(0 0 40px rgba(0,0,0,0.8));
+            display: flex; 
+            flex-direction: column; /* Mobile: Coluna */
+            align-items: center;    
+            justify-content: center;
+            gap: 35px; 
+            z-index: 1000;
+            position: relative;
+            width: 100%;
+            filter: drop-shadow(0 0 40px rgba(0,0,0,0.8));
         }
 
-        .brand-logo { width: 50px; height: auto; display: block; }
+        .brand-logo { 
+            width: 60px; /* Mobile */
+            height: auto; display: block; 
+        }
+
+        .separator-box { display: none; } /* Oculta X no mobile */
 
         .dynamic-x { 
             font-size: 28px; font-weight: 300; color: #fff; 
             display: block; transition: color 0.3s ease, transform 0.3s ease;
         }
 
-        .menu-links { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+        .menu-links { 
+            display: flex; flex-direction: column; gap: 15px; 
+            align-items: center; 
+            text-align: center;
+        }
+        
         .menu-links a { 
             text-decoration: none; color: #666; font-size: 32px; font-weight: 400; 
             transition: color 0.3s ease, transform 0.3s ease; 
             position: relative; width: fit-content; display: block; 
         }
+        
         .menu-links a::after { 
             content: ''; position: absolute; width: 0; height: 1.5px; 
             bottom: 6px; left: 0; background-color: #fff; 
             transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
+            left: 50%; transform: translateX(-50%); 
         }
-        .menu-links a:hover { color: #fff; transform: translateX(10px); }
+        .menu-links a:hover { color: #fff; }
         .menu-links a:hover::after { width: 100%; }
 
-        .side-label { position: fixed; top: 50%; transform: translateY(-50%); font-weight: 300; font-size: 13px; color: #333; text-transform: lowercase; letter-spacing: 0.3em; z-index: 1001; pointer-events: none; }
-        .left-edge { left: 40px; } .right-edge { right: 40px; }
-        footer { position: fixed; bottom: 40px; left: 0; width: 100%; text-align: center; font-size: 11px; color: #333; letter-spacing: 0.2em; z-index: 1001; pointer-events: none; }
+        /* Elementos escondidos no Mobile */
+        .preview-container, .side-label { display: none; }
 
-        @media (max-width: 900px) {
-            .preview-container, .side-label { display: none; }
-            .bg-typo { font-size: 35vw; }
-            .main-container { flex-direction: column; text-align: center; gap: 20px; }
-            .menu-links { align-items: center; }
-            .brand-logo { width: 180px; } 
-            .lang-switcher { top: 30px; }
-            footer { bottom: 20px; font-size: 9px; }
-            .loader-counter { font-size: 80px; }
+        footer { 
+            position: fixed; bottom: 30px; left: 0; width: 100%; 
+            text-align: center; font-size: 9px; 
+            color: #333; letter-spacing: 0.2em; z-index: 1001; pointer-events: none; 
+        }
+
+
+        /* ========================================= */
+        /* === DESKTOP (min-width: 900px) === */
+        /* ========================================= */
+        
+        @media (min-width: 900px) {
+            body { perspective: 2500px; }
+
+            .loader-counter { font-size: clamp(80px, 15vw, 200px); right: 40px; }
+
+            /* Ajuste de topo para Desktop (Mantém centralização horizontal) */
+            .lang-switcher { top: 50px; }
+
+            .main-container {
+                flex-direction: row;
+                gap: 70px;
+            }
+            
+            .brand-logo { width: 50px; }
+            .separator-box { display: block; }
+
+            .menu-links { align-items: flex-start; gap: 8px; }
+            .menu-links a:hover { transform: translateX(10px); } 
+            .menu-links a::after { left: 0; transform: none; }
+
+            .bg-typo { font-size: 42vw; }
+            
+            footer { bottom: 40px; font-size: 11px; }
+
+            .side-label { 
+                display: block;
+                position: fixed; top: 50%; transform: translateY(-50%); 
+                font-weight: 300; font-size: 13px; color: #333; 
+                text-transform: lowercase; letter-spacing: 0.3em; 
+                z-index: 1001; pointer-events: none; 
+            }
+            .left-edge { left: 40px; } 
+            .right-edge { right: 40px; }
+
+            .preview-container {
+                display: block;
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                pointer-events: none; z-index: 1; 
+                transform-style: preserve-3d; transition: transform 0.1s linear;
+            }
+            .preview-group { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 0.4s ease; transform-style: preserve-3d; }
+            .preview-group.active { opacity: 1; }
+
+            .preview-img {
+                position: absolute; width: clamp(150px, 12vw, 250px); height: auto;
+                object-fit: cover; top: 50%; left: 50%;
+                border-radius: 0; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+                opacity: 0; filter: blur(20px) grayscale(1) brightness(0.5);
+                transform: translate(-50%, -50%) scale(0.3) translateZ(-300px) rotate(0deg);
+                transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+                will-change: transform, opacity, filter;
+            }
+            .preview-group.active .preview-img { opacity: 0.7; filter: blur(0px) grayscale(0) brightness(1); }
+
+            /* Posições */
+            .p1 { transition-delay: 0.02s; } .active .p1 { transform: translate(-380%, -240%) scale(1.3) rotate(-8deg) translateZ(0); }
+            .p2 { transition-delay: 0.08s; } .active .p2 { transform: translate(-230%, -190%) scale(0.8) rotate(5deg) translateZ(0); }
+            .p3 { transition-delay: 0.04s; } .active .p3 { transform: translate(-50%, -330%) scale(1.0) rotate(-2deg) translateZ(0); }
+            .p4 { transition-delay: 0.12s; } .active .p4 { transform: translate(50%, -230%) scale(0.9) rotate(10deg) translateZ(0); }
+            .p5 { transition-delay: 0.06s; } .active .p5 { transform: translate(190%, -260%) scale(1.2) rotate(6deg) translateZ(0); }
+            .p6 { transition-delay: 0.15s; } .active .p6 { transform: translate(330%, -200%) scale(0.9) rotate(-4deg) translateZ(0); }
+            .p7 { transition-delay: 0.03s; } .active .p7 { transform: translate(260%, -50%) scale(1.5) rotate(12deg) translateZ(0); z-index: 5; }
+            .p8 { transition-delay: 0.10s; } .active .p8 { transform: translate(220%, 70%) scale(0.7) rotate(-7deg) translateZ(0); }
+            .p9 { transition-delay: 0.05s; } .active .p9 { transform: translate(310%, 190%) scale(1.1) rotate(4deg) translateZ(0); }
+            .p10 { transition-delay: 0.18s; } .active .p10 { transform: translate(150%, 150%) scale(0.8) rotate(-15deg) translateZ(0); }
+            .p11 { transition-delay: 0.04s; } .active .p11 { transform: translate(-50%, 190%) scale(1.2) rotate(3deg) translateZ(0); }
+            .p12 { transition-delay: 0.11s; } .active .p12 { transform: translate(70%, 260%) scale(0.7) rotate(-6deg) translateZ(0); }
+            .p13 { transition-delay: 0.07s; } .active .p13 { transform: translate(-290%, 230%) scale(1.1) rotate(-9deg) translateZ(0); }
+            .p14 { transition-delay: 0.19s; } .active .p14 { transform: translate(-190%, 140%) scale(0.8) rotate(7deg) translateZ(0); }
+            .p15 { transition-delay: 0.05s; } .active .p15 { transform: translate(-360%, -30%) scale(1.5) rotate(-14deg) translateZ(0); z-index: 5; }
+            .p16 { transition-delay: 0.14s; } .active .p16 { transform: translate(-240%, -90%) scale(0.7) rotate(11deg) translateZ(0); }
+            .p17 { transition-delay: 0.21s; } .active .p17 { transform: translate(130%, -310%) scale(0.6) rotate(-3deg) translateZ(0); }
+            .p18 { transition-delay: 0.24s; } .active .p18 { transform: translate(-310%, 310%) scale(0.6) rotate(20deg) translateZ(0); }
         }
     </style>
 </head>
@@ -360,8 +429,8 @@
             const moveX = (window.innerWidth / 2 - x);
             const moveY = (window.innerHeight / 2 - y);
 
-            liquidText.style.transform = `translate(${moveX/25}px, ${moveY/25}px) skew(${moveX/40}deg, ${moveY/40}deg)`;
-            scene.style.transform = `rotateX(${moveY/45}deg) rotateY(${moveX/45}deg)`;
+            if (liquidText) liquidText.style.transform = `translate(${moveX/25}px, ${moveY/25}px) skew(${moveX/40}deg, ${moveY/40}deg)`;
+            if (scene) scene.style.transform = `rotateX(${moveY/45}deg) rotateY(${moveX/45}deg)`;
         });
 
         // FUNÇÃO DE RANDOMIZAÇÃO
@@ -389,7 +458,7 @@
 
         // INTERAÇÃO E TRANSIÇÃO
         links.forEach(link => {
-            // Hover logic
+            // Hover logic (Desktop)
             link.addEventListener('mouseenter', () => {
                 const targetId = link.getAttribute('data-target');
                 const targetGroup = document.getElementById(targetId);

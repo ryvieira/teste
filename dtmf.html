@@ -7,52 +7,49 @@
     <link rel="icon" type="image/x-icon" href="img/favicon_r.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         /* Cor da seleção de texto */
-        ::selection {
-            background-color: #fff;
-            color: #000;
-        }
+        ::selection { background-color: #fff; color: #000; }
 
-        /* Barra de rolagem customizada (Webkit - Chrome/Safari) */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #050505;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
+        /* Barra de rolagem customizada */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
 
         /* RESET & BASE */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 
-        /* --- BARRA DE PROGRESSO VERTICAL (ESQUERDA) --- */
+        /* --- BARRA DE PROGRESSO VERTICAL --- */
         #scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 3px; /* Espessura da barra */
-            height: 0%; /* Altura inicial */
-            background-color: #fff; 
-            z-index: 9999; 
-            transition: height 0.1s linear;
+            position: fixed; top: 0; left: 0; width: 3px; height: 0%; 
+            background-color: #fff; z-index: 9999; transition: height 0.1s linear;
         }
 
-        /* --- LÓGICA MULTILINGUE --- */
-        .lang-en { display: none; }
-        body.en-active .lang-pt { display: none; }
-        body.en-active .lang-en { display: inline; }
-        body.en-active div.lang-en { display: block; }
+        /* --- LÓGICA MULTILINGUE (CORRIGIDA COM !IMPORTANT) --- */
+        
+        /* 1. Oculta Inglês por padrão (Sobrescreve qualquer display: grid/block) */
+        .lang-en { display: none !important; }
+
+        /* 2. Quando a classe .en-active está no body (Modo Inglês Ativo): */
+        
+        /* Oculta Português */
+        body.en-active .lang-pt { display: none !important; }
+        
+        /* Mostra elementos inline em Inglês (span, a, etc) */
+        body.en-active .lang-en { display: inline !important; }
+        
+        /* Mostra blocos de texto em Inglês */
+        body.en-active div.lang-en, 
+        body.en-active p.lang-en { display: block !important; }
+        
+        /* REGRA ESPECÍFICA: Restaura o GRID do texto editorial em Inglês */
+        body.en-active .project-text-grid.lang-en { display: grid !important; }
+
 
         /* ANIMAÇÃO DE ENTRADA */
         .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -67,7 +64,7 @@
         .lang-btn.active { color: #fff; font-weight: 600; }
         .project-id { color: rgba(255, 255, 255, 0.4); font-size: 13px; text-transform: lowercase; letter-spacing: 0.2em; font-weight: 300; justify-self: end; }
 
-        /* HERO COM TRATAMENTO */
+        /* HERO */
         .hero-visual { width: 100%; height: 85vh; position: relative; overflow: hidden; background: #000; }
         .hero-visual::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.2); z-index: 2; pointer-events: none; }
         .hero-visual img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1); transition: transform 0.1s linear; filter: brightness(0.6) contrast(1.1); }
@@ -76,69 +73,76 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
 
         /* EDITORIAL BLOCK */
-        .editorial-block { display: flex; justify-content: space-between; gap: 80px; padding: 100px 0; }
-        .editorial-left { flex: 0 0 350px; }
+        .editorial-block { display: flex; justify-content: space-between; gap: 60px; padding: 100px 0; }
+        .editorial-left { flex: 0 0 300px; }
+        
         .project-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; color: #444; margin-bottom: 20px; display: block; }
         .editorial-title { font-size: 48px; font-weight: 600; line-height: 1; letter-spacing: -0.04em; margin-bottom: 30px; }
         .category-tag { display: inline-block; border: 1px solid #333; padding: 8px 16px; font-weight: 300; font-size: 13px; color: #888; text-transform: uppercase; letter-spacing: 0.15em; }
-        .text-main { font-size: 21px; font-weight: 300; color: #ccc; line-height: 1.6; }
-
-        /* --- ESTRUTURA DOS CARTAZES --- */
-        .poster-section { margin-bottom: 180px; }
         
-        /* Grid 2 colunas: Nome e Cartaz */
-        .poster-main-grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1.5fr; 
-            gap: 60px; 
-            align-items: end; 
-            margin-bottom: 40px;
+        .editorial-right { flex: 1; }
+
+        /* --- GRID DE TEXTO (LAYOUT) --- */
+        .project-text-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 60px;
+            row-gap: 50px;
+            /* display: grid é aplicado aqui, mas o !important nas regras de idioma vai controlar a visibilidade */
         }
 
-        .poster-info h3 { 
-            font-size: 13px; 
-            text-transform: uppercase; 
-            letter-spacing: 0.3em; 
-            color: #444; 
-            margin-bottom: 10px; 
-        }
-        .poster-info .brand-name { 
-            font-size: 32px; 
-            font-weight: 500; 
-            letter-spacing: -0.02em; 
-            color: #fff; 
+        .grid-item:first-child {
+            grid-column: 1 / -1; /* Ocupa largura total */
+            max-width: 100%; 
         }
 
-        /* Lógica para intercalar (Pares) */
-        .poster-section:nth-child(even) .poster-main-grid {
-            grid-template-columns: 1.5fr 1fr;
+        /* TÍTULOS PEQUENOS */
+        .grid-item h4 {
+            font-size: 11px; 
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 15px;
         }
-        .poster-section:nth-child(even) .poster-info {
-            order: 2;
-            text-align: right;
+
+        /* TEXTO PADRÃO */
+        .grid-item p {
+            font-size: 16px;
+            color: #888;
+            line-height: 1.6;
+            font-weight: 400;
+            margin: 0;
         }
-        .poster-section:nth-child(even) .poster-main-grid img {
-            order: 1;
+
+        /* --- DESTAQUE PARA O TEXTO DO CONCEITO (LEAD 21px) --- */
+        .grid-item:first-child p {
+            font-size: 21px; 
+            font-weight: 300; 
+            color: #ccc; 
+            line-height: 1.5;
         }
+
+        /* --- POSTERS --- */
+        .poster-section { margin-bottom: 180px; }
+        .poster-main-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; align-items: end; margin-bottom: 40px; }
+        .poster-info h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.3em; color: #444; margin-bottom: 10px; }
+        .poster-info .brand-name { font-size: 32px; font-weight: 500; letter-spacing: -0.02em; color: #fff; }
+
+        /* Intercalado */
+        .poster-section:nth-child(even) .poster-main-grid { grid-template-columns: 1.5fr 1fr; }
+        .poster-section:nth-child(even) .poster-info { order: 2; text-align: right; }
+        .poster-section:nth-child(even) .poster-main-grid img { order: 1; }
 
         .poster-main-grid img { width: 100%; height: auto; display: block; background: #050505; }
 
-        /* Imagem da letra (Full Width) - SEM FUNDO */
-        .type-detail-img { 
-            width: 100%; 
-            height: auto; 
-            display: block; 
-            margin-top: 40px; 
-        }
-
-        /* CRÉDITOS */
+        /* CRÉDITOS & FOOTER */
         .credits { border-top: 1px solid #222; padding-top: 80px; margin-top: 120px; }
         .credits h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.2em; color: #444; margin-bottom: 50px; }
         .credits-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 50px 40px; margin-bottom: 80px; }
         .credits-list dt { font-size: 12px; text-transform: uppercase; color: #444; margin-bottom: 12px; }
         .credits-list dd { font-size: 18px; font-weight: 300; color: #fff; }
 
-        /* FOOTER */
         .next-project-section { padding: 120px 0; border-top: 1px solid #222; margin-top: 80px; }
         .next-project-link { font-size: clamp(32px, 8vw, 80px); font-weight: 600; color: #fff; text-decoration: none; letter-spacing: -0.04em; transition: all 0.5s ease; }
         .next-project-link:hover { color: #666; transform: translateX(15px); }
@@ -150,6 +154,8 @@
             .top-nav { grid-template-columns: 1fr 1fr; padding: 20px 30px; top: 20px; }
             .lang-switcher { grid-row: 2; grid-column: 1 / span 2; margin: 15px 0; }
             .editorial-block { flex-direction: column; gap: 40px; }
+            .project-text-grid { grid-template-columns: 1fr; gap: 40px; } 
+            .grid-item:first-child { grid-column: auto; max-width: 100%; }
             .poster-main-grid, .poster-section:nth-child(even) .poster-main-grid { grid-template-columns: 1fr; gap: 30px; }
             .poster-info, .poster-section:nth-child(even) .poster-info { order: 2; text-align: left; }
             .poster-main-grid img, .poster-section:nth-child(even) .poster-main-grid img { order: 1; }
@@ -170,13 +176,13 @@
             <span style="color: #111;">|</span>
             <span id="btn-en" class="lang-btn" onclick="switchLang('en')">EN</span>
         </div>
-        <span class="project-id">ryan vieira — type season</span>
+        <span class="project-id">ryan vieira — dtmf posters</span>
     </nav>
 
     <a href="#top" class="back-to-top-fixed" id="btnBackToTop">↑</a>
 
     <header class="hero-visual fade-in">
-        <img src="img/dtmfgif.gif" alt="Type Season Hero" id="heroImage">
+        <img src="img/dtmfgif.gif" alt="DtMF Hero" id="heroImage">
     </header>
 
     <main class="container">
@@ -190,11 +196,53 @@
                     <span class="lang-en">Art Direction</span>
                 </div>
             </div>
+            
             <div class="editorial-right">
-                <p class="text-main">
-                    <span class="lang-pt">As campanhas de moda são um dos principais veículos de construção de identidade das grandes marcas. A partir dessa potência, surgiu a ideia de revisitar esses materiais sob a ótica do design gráfico autoral.</span>
-                    <span class="lang-en">Fashion campaigns are a primary vehicle for brand identity. From this potential, the idea emerged to revisit these materials through authorial graphic design.</span>
-                </p>
+                
+                <div class="project-text-grid lang-pt">
+                    <div class="grid-item">
+                        <h4>Conceito</h4>
+                        <p>
+                            O desafio foi traduzir a experiência audiovisual dos videoclipes do DTMF para o estático. O foco não foi descrever a narrativa, mas sim capturar a identidade emocional e o ritmo de cada faixa. A ideia era responder visualmente: qual é a sensação dessa música?
+                        </p>
+                    </div>
+                    
+                    <div class="grid-item">
+                        <h4>Processo</h4>
+                        <p>
+                           Através de uma seleção de frames, busquei usar poucas imagens, cortes estratégicos e fragmentação. Uma desconstrução da obra original para criar algo novo e que representasse o videoclipe.
+                        </p>
+                    </div>
+
+                    <div class="grid-item">
+                        <h4>Linguagem Visual</h4>
+                        <p>
+                            Optei por uma estética contida, onde o espaço negativo é tão importante quanto a imagem. A tipografia não apenas informa, ela soa. Ela dialoga com a vibração sonora e reforça o caráter de cada peça, garantindo unidade sem perder a personalidade.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="project-text-grid lang-en">
+                    <div class="grid-item">
+                        <h4>Concept</h4>
+                        <p>
+                            The challenge was to translate the audiovisual experience of DTMF music videos into static print. The focus wasn't on describing the narrative, but on capturing the emotional identity and rhythm of each track. The goal was to visually answer: what does this song feel like?
+                        </p>
+                    </div>
+                    <div class="grid-item">
+                        <h4>Process</h4>
+                        <p>
+                            Digital collage serves as the primary language. Through a rigorous selection of frames and photographs, I aimed for synthesis: few images, strategic cuts, and fragmentation. A deconstruction of the original work to create something new.
+                        </p>
+                    </div>
+                    <div class="grid-item">
+                        <h4>Visual Language</h4>
+                        <p>
+                            I chose a restrained aesthetic, where negative space is as important as the image itself. The typography doesn't just inform—it sounds. It dialogues with the sonic vibration and reinforces the character of each piece, ensuring unity without losing personality.
+                        </p>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -269,7 +317,7 @@
         const bodyEl = document.body;
         const btnPt = document.getElementById('btn-pt');
         const btnEn = document.getElementById('btn-en');
-        const scrollProgress = document.getElementById('scroll-progress'); // Referência à barra
+        const scrollProgress = document.getElementById('scroll-progress');
 
         function switchLang(lang) {
             if (lang === 'en') {
